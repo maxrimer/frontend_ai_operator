@@ -40,9 +40,9 @@ export const SocialActivityWidget = () => {
             </Typography>
           </Stack>
           <Stack direction="column" align="center">
-            <Typography variant="text-2xl_1">5.7k</Typography>
+            <Typography variant="text-2xl_1">56</Typography>
             <Typography variant="text-s" color="tertiary">
-              Подписчиков
+              Звонков
             </Typography>
           </Stack>
           <Stack direction="column" align="center">

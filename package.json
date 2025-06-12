@@ -23,6 +23,7 @@
     "@ozen-ui/fonts": "^0.63.1",
     "@ozen-ui/icons": "^0.63.1",
     "@ozen-ui/kit": "^0.63.1",
+    "@tanstack/react-query": "^5.80.7",
     "@types/mdx": "^2.0.13",
     "clsx": "^2.1.1",
     "jotai": "^2.9.3",

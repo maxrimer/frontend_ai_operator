@@ -1,7 +1,5 @@
 export * from './WelcomeBackWidget';
-export * from './StorageWidget';
 export * from './NotificationControlsWidget';
-export * from './ProjectsWidget';
 export * from './GeneralInfoWidget';
 export * from './CalendarWidget';
 export * from './SocialActivityWidget';
@@ -11,5 +9,4 @@ export * from './CompletedTasksWidget';
 export * from './CreatedIssuesWidget';
 export * from './FinancialTransactionsWidget';
 export * from './ResolvedincidentsWidget';
-export * from './FindJobWidget';
 export * from './CurrenciesWidget';

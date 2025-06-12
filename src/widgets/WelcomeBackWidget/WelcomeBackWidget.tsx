@@ -1,5 +1,3 @@
-import { GiftIcon } from '@ozen-ui/icons';
-import { Button } from '@ozen-ui/kit/ButtonNext';
 import { Stack } from '@ozen-ui/kit/Stack';
 import { Typography } from '@ozen-ui/kit/Typography';
 
@@ -16,14 +14,14 @@ export const WelcomeBackWidget = () => {
           Поздравляем, {user.name}! 🥳
         </Typography>
         <Typography variant="text-m_1">
-          Вы успешно завершили все свои задачи за прошедший спринт.
+          Вы успешно закрыли все беседы за эту неделю.
         </Typography>
-        <Typography color="tertiary" variant="text-m">
+        {/* <Typography color="tertiary" variant="text-m">
           Когда мастер берется за дело и выполняет работу качественно и в срок,
           хочется в ответ ему выразить благодарность и восхищение! Спасибо за
           ваше усердие и за умение.
         </Typography>
-        <Button iconLeft={GiftIcon}>Получить награду</Button>
+        <Button iconLeft={GiftIcon}>Получить награду</Button> */}
       </Stack>
       <Stack align="center" justify="center" className={s.img}>
         <img src={img} width="240" alt="win" style={{ marginTop: '10%' }} />

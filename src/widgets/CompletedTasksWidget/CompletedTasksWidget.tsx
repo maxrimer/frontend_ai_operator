@@ -22,7 +22,7 @@ export const CompletedTasksWidget = () => {
           <CheckIcon />
         </Avatar>
         <Stack direction="column">
-          <Typography color="tertiary">Завершенных задач</Typography>
+          <Typography color="tertiary">Удовлетворенных звонков</Typography>
           <Typography variant="text-2xl_1">31</Typography>
         </Stack>
       </Stack>

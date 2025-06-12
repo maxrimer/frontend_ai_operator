@@ -1,7 +1,5 @@
 import { FC } from 'react';
 
-import ava from '../assets/avatar-user.png';
-
 export interface User {
   fullName: string;
   name: string;
@@ -14,10 +12,10 @@ export interface User {
 }
 
 export const user = {
-  fullName: 'Айлин Ким',
-  name: 'Aйлин',
-  role: 'Продуктовый дизайнер',
+  fullName: 'Аслан К',
+  name: 'Аслан',
+  role: 'Менеджер по работе с клиентами',
   avatar: {
-    url: ava,
+    url: '',
   },
 };

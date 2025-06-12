@@ -3,9 +3,7 @@ import { generateUniqKey } from '@ozen-ui/kit/__inner__/cjs/utils/generateUniqKe
 
 import user_1 from '../assets/avatar-girl.avif';
 import user_3 from '../assets/avatar-man-2.jpg';
-import user_4 from '../assets/avatar-man-3.jpg';
 import user_2 from '../assets/avatar-man.avif';
-import emoji from '../assets/emoji.png';
 import img from '../assets/river.jpg';
 
 import { User } from './user';
@@ -145,31 +143,6 @@ export const chats: Chat[] = [
   {
     id: generateUniqKey(),
     user: {
-      fullName: 'Рустем Гатиатулин',
-      name: 'Рустем',
-      avatar: {
-        url: user_4,
-      },
-    },
-    messages: [
-      {
-        id: generateUniqKey(),
-        type: 'incoming',
-        text: 'Надо научиться чувствовать спейсинги)\n- Чувствуешь спейсинг?\n- Нет\n- А он есть…',
-        date: '2023-10-08T08:00:00.000Z',
-      },
-      {
-        id: generateUniqKey(),
-        type: 'outgoing',
-        text: '😂',
-        emoji,
-        date: '2023-10-08T08:00:00.000Z',
-      },
-    ],
-  },
-  {
-    id: generateUniqKey(),
-    user: {
       fullName: 'Bereke Bank',
       name: 'Bereke Bank',
       online: true,
@@ -195,8 +168,8 @@ export const chats: Chat[] = [
   {
     id: generateUniqKey(),
     user: {
-      fullName: 'Вагиз Ибрагимов',
-      name: 'Вагиз ',
+      fullName: 'Хоуми',
+      name: 'Хоуми',
     },
     messages: [
       {

@@ -8,9 +8,7 @@ import {
 } from '@ozen-ui/kit/Grid';
 
 import {
-  StorageWidget,
   NotificationControlsWidget,
-  ProjectsWidget,
   GeneralInfoWidget,
   CalendarWidget,
   SocialActivityWidget,
@@ -28,14 +26,8 @@ export const ProfilePage = () => {
       <GridItem col={{ xs: 1, m: 6, l: 4 }}>
         <SocialActivityWidget />
       </GridItem>
-      <GridItem col={{ xs: 1, m: 6, l: 3 }}>
-        <StorageWidget />
-      </GridItem>
       <GridItem col={{ xs: 1, m: 12, l: 5 }}>
         <CalendarWidget />
-      </GridItem>
-      <GridItem col={{ xs: 1, m: 6, l: 4 }}>
-        <ProjectsWidget />
       </GridItem>
       <GridItem col={{ xs: 1, m: 6, l: 5 }}>
         <GeneralInfoWidget />

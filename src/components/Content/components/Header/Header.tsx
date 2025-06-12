@@ -9,7 +9,6 @@ import { useBoolean } from '@ozen-ui/kit/useBoolean';
 
 import { BurgerMenu } from '../../../BurgerMenu';
 import Notifications from '../../../Notifications/Notifications.tsx';
-import { Search } from '../../../Search';
 
 import s from './Header.module.css';
 
@@ -32,7 +31,6 @@ export const Header = () => {
       >
         <Stack gap="s">
           <BurgerMenu />
-          <Search />
         </Stack>
         <Stack gap="s" align="center">
           <IconButton icon={GroupUserIcon} compressed aria-label="Контакты" />

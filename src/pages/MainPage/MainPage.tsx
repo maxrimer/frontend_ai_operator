@@ -12,11 +12,8 @@ import {
   CompletedTasksWidget,
   HelpCenterWidget,
   CreatedIssuesWidget,
-  FinancialTransactionsWidget,
   ResolvedIncidentsWidget,
   TipsWidget,
-  FindJobWidget,
-  CurrenciesWidget,
 } from '../../widgets';
 
 import s from './MainPage.module.css';
@@ -42,15 +39,6 @@ export const MainPage = () => {
       </GridItem>
       <GridItem col={{ xs: 12, s: 6, m: 4 }}>
         <CreatedIssuesWidget />
-      </GridItem>
-      <GridItem col={{ xs: 12, s: 12, m: 6, l: 7 }}>
-        <FinancialTransactionsWidget />
-      </GridItem>
-      <GridItem col={{ xs: 12, s: 12, m: 6, l: 5 }}>
-        <CurrenciesWidget />
-      </GridItem>
-      <GridItem col={{ xs: 12, s: 6, m: 6 }}>
-        <FindJobWidget />
       </GridItem>
       <GridItem col={{ xs: 12, s: 6, m: 6 }}>
         <HelpCenterWidget />

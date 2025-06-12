@@ -3,7 +3,6 @@ import { FC, ReactElement } from 'react';
 import {
   ChatMenuIcon,
   DashboardIcon,
-  TemplatesIcon,
   UserCircleOutlineIcon,
   CartHandIcon,
   PowerOutlineIcon,
@@ -20,7 +19,6 @@ import {
   MainPage,
   ProfilePage,
   ChatPage,
-  SandboxPage,
   OrdersPage,
   HelpCenterPage,
   HelpCenterDetailsPage,
@@ -127,7 +125,7 @@ const routes: Record<string, App> = {
     component: () => <ProfilePage />,
   },
   chat: {
-    title: 'Онлайн чат',
+    title: 'Чат',
     link: '/chat',
     path: '/chat',
     icon: ChatMenuIcon,
@@ -135,7 +133,7 @@ const routes: Record<string, App> = {
     count: 3,
   },
   orders: {
-    title: 'Заказы',
+    title: 'Список бесед',
     link: '/orders',
     path: '/orders',
     icon: CartHandIcon,
@@ -147,13 +145,6 @@ const routes: Record<string, App> = {
     path: '/calendar',
     icon: CalendarIcon,
     component: () => <CalendarPage />,
-  },
-  sandbox: {
-    title: 'Песочница',
-    link: '/sandbox',
-    path: '/sandbox',
-    icon: TemplatesIcon,
-    component: () => <SandboxPage />,
   },
   logout: {
     title: 'Завершить сеанс',
@@ -206,15 +197,9 @@ export const navigation: Navigation = {
   apps: [
     'main',
     'profile',
-    'blog',
     'chat',
     'orders',
     'calendar',
-    'help-center',
-    'live-coding',
-    'microfrontends',
-    'sandbox',
-    ['ozenbook', 'getting-started', 'icons', 'contributing', 'button'],
     'logout',
   ],
 };

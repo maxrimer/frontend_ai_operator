@@ -52,14 +52,14 @@
   background-color: var(--color-bg-brand);
   color: var(--color-typo-primary-on-dark);
   align-self: flex-end;
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .aiMessage.ai {
   background-color: var(--color-bg-secondary);
   color: var(--color-typo-secondary);
   align-self: flex-start;
-  margin-right: auto;
+  margin-inline-end: auto;
 }
 
 .aiMessage.loading {
@@ -76,6 +76,7 @@
   0%, 100% {
     opacity: 0.7;
   }
+
   50% {
     opacity: 1;
   }

@@ -36,9 +36,8 @@
 /* AI Prompter as third column */
 .chatContainer :global(.aiPrompter) {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  inset-block: 0;
+  inset-inline-end: 0;
   inline-size: 320px;
   z-index: 1000;
 }

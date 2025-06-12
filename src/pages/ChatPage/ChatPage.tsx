@@ -6,7 +6,7 @@ import { useTimer } from '@ozen-ui/kit/useTimer';
 import { chats } from '../../helpers';
 
 import s from './ChatPage.module.css';
-import { ChatList, Conversation } from './components';
+import { ChatList, Conversation, AIPrompter } from './components';
 
 type UseAnimationProps = {
   entered?: () => void;
@@ -121,6 +121,7 @@ export const ChatPage = () => {
         >
           <Conversation id={chatId} onClickBackButton={close} />
         </div>
+        <AIPrompter />
       </div>
     </div>
   );

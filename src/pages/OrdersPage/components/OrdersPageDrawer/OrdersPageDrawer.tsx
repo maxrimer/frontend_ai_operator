@@ -63,7 +63,7 @@ export const OrdersPageDrawer: FC<Partial<OrdersPageDrawerProps>> = ({
               width={180}
             />
           ) : (
-            `Заказ № ${order?.id}`
+            `Звонок № ${order?.id}`
           )}
         </DrawerTitle>
       </DrawerHeader>
@@ -127,7 +127,7 @@ export const OrdersPageDrawer: FC<Partial<OrdersPageDrawerProps>> = ({
                 size="s"
                 variant="contained-additional"
               >
-                Принять
+                Перезвонить
               </Button>
               <Button
                 iconLeft={CrossIcon}
@@ -135,7 +135,7 @@ export const OrdersPageDrawer: FC<Partial<OrdersPageDrawerProps>> = ({
                 color="error"
                 variant="contained-additional"
               >
-                Отклонить
+                Заблокировать
               </Button>
             </Stack>
           )}
@@ -151,7 +151,7 @@ export const OrdersPageDrawer: FC<Partial<OrdersPageDrawerProps>> = ({
           />
         ) : (
           <Button variant="function" iconLeft={BillIcon} color="secondary">
-            Скачать чек операции
+            Скачать запись звонка
           </Button>
         )}
       </DrawerFooter>

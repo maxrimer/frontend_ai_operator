@@ -1,10 +1,9 @@
 export const dictionary: { [k: string]: string } = {
-  id: 'Номер заказа',
+  id: 'Номер звонка',
   type: 'Тип',
-  name: 'Название',
-  sender: 'Отправитель',
-  date: 'Дата заказа',
+  caller: 'Звонящий',
+  date: 'Дата звонка',
   status: 'Статус',
-  amount: 'Сумма',
+  duration: 'Длительность',
   detail: 'Детальная информация',
 };

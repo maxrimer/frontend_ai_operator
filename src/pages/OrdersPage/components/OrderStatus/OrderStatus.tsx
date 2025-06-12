@@ -1,17 +1,13 @@
-import { FC, ReactElement } from 'react';
+import { FC } from 'react';
 
 import { Tag } from '@ozen-ui/kit/TagNext';
 
+import { callStatusLabels, callStatusColors } from '../../../../entities';
 import { type OrderStatus as OrderStatusType } from '../../../../helpers';
 
-export type OrdersStatuses = Record<OrderStatusType, ReactElement>;
-
-const statuses: OrdersStatuses = {
-  payed: <Tag as="span" color="success" label="Оплачен" size="s" />,
-  declined: <Tag as="span" color="error" label="Отклонён" size="s" />,
-  inProgress: <Tag as="span" color="warning" label="В обработке" size="s" />,
-};
-
 export const OrderStatus: FC<{ status: OrderStatusType }> = ({ status }) => {
-  return statuses[status];
+  const label = callStatusLabels[status];
+  const color = callStatusColors[status];
+  
+  return <Tag as="span" color={color} label={label} size="s" />;
 };

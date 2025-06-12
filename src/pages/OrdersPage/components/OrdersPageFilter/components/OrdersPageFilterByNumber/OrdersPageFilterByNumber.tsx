@@ -32,7 +32,7 @@ export const OrdersPageFilterByNumber: FC<{
           />
         ) : null
       }
-      label="Поиск по номеру заказа"
+      label="Поиск по номеру звонка"
       fullWidth
     />
   );

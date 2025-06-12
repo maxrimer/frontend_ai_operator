@@ -32,15 +32,15 @@ export const OrdersPageTable: FC<OrdersPageTableProps> = ({
         <TableHead>
           <TableRow>
             <TableCell align="left">{dictionary['id']}</TableCell>
-            <TableCell align="left">{dictionary['amount']}</TableCell>
+            <TableCell align="left">{dictionary['caller']}</TableCell>
+            <TableCell align="left">{dictionary['duration']}</TableCell>
             <TableCell align="left">{dictionary['date']}</TableCell>
-            <TableCell align="left">{dictionary['name']}</TableCell>
-            <TableCell align="left">{dictionary['sender']}</TableCell>
+            <TableCell align="left">{dictionary['type']}</TableCell>
             <TableCell align="left">{dictionary['status']}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map(({ amount, date, id, name, sender, status }) => (
+          {orders.map(({ caller, date, duration, id, type, status }) => (
             <TableRow
               selected={id === orderId}
               key={id}
@@ -52,14 +52,14 @@ export const OrdersPageTable: FC<OrdersPageTableProps> = ({
                   {id}
                 </Typography>
               </TableCell>
+              <TableCell verticalAlign="middle">{caller}</TableCell>
               <TableCell verticalAlign="middle">
-                <Typography noWrap>{amount}</Typography>
+                <Typography noWrap>{duration}</Typography>
               </TableCell>
               <TableCell verticalAlign="middle">
                 <Typography noWrap>{formatDate(date)}</Typography>
               </TableCell>
-              <TableCell verticalAlign="middle">{name}</TableCell>
-              <TableCell verticalAlign="middle">{sender}</TableCell>
+              <TableCell verticalAlign="middle">{type}</TableCell>
               <TableCell verticalAlign="middle">
                 <OrderStatus status={status} />
               </TableCell>

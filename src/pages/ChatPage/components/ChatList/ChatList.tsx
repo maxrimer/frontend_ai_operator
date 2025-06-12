@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { ChatsIcon, LockOnIcon } from '@ozen-ui/icons';
+import { ChatsIcon } from '@ozen-ui/icons';
 import { Avatar } from '@ozen-ui/kit/Avatar';
 import { Card } from '@ozen-ui/kit/Card';
 import { Divider } from '@ozen-ui/kit/Divider';
@@ -11,7 +11,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@ozen-ui/kit/List';
-import { Stack } from '@ozen-ui/kit/Stack';
 import { Typography } from '@ozen-ui/kit/Typography';
 import clsx from 'clsx';
 
@@ -79,14 +78,6 @@ export const ChatList: FC<ChatListProps> = ({
         </List>
       </div>
       <Divider color="secondary" />
-      <Stack align="start" className={s.chatListFooter}>
-        <Stack justify="center" gap="m">
-          <LockOnIcon size="s" />
-          <Typography variant="text-s" color="tertiary" noWrap>
-            Ваши личные сообщения защищены сквозным шифрованием
-          </Typography>
-        </Stack>
-      </Stack>
     </Card>
   );
 };

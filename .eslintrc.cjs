@@ -39,6 +39,7 @@ module.exports = {
       },
     ],
     'padding-line-between-statements': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/padding-line-between-statements': [
       'warn',
       {
@@ -60,7 +61,7 @@ module.exports = {
         blankLine: 'always',
         prev: '*',
         next: ['interface', 'type'],
-      },
+      }
     ],
   },
 }

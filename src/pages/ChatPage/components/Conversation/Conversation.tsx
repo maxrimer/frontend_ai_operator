@@ -2,13 +2,11 @@ import { FC, useRef, useEffect } from 'react';
 
 import {
   ArchiveIcon,
-  AttachmentIcon,
   BanIcon,
   ChevronLeftIcon,
   DeleteIcon,
   MenuHorizontalIcon,
   SearchIcon,
-  SendIcon,
   SoundOffIcon,
 } from '@ozen-ui/icons';
 import { scrollContainerToElement } from '@ozen-ui/kit/__inner__/cjs/utils/scrollContainerToElement';
@@ -16,7 +14,6 @@ import { Avatar } from '@ozen-ui/kit/Avatar';
 import { Card } from '@ozen-ui/kit/Card';
 import { Divider } from '@ozen-ui/kit/Divider';
 import { IconButton } from '@ozen-ui/kit/IconButtonNext';
-import { Input } from '@ozen-ui/kit/Input';
 import { Menu, MenuItem, MenuItemIcon, MenuItemText } from '@ozen-ui/kit/Menu';
 import { spacing } from '@ozen-ui/kit/MixSpacing';
 import { Stack } from '@ozen-ui/kit/Stack';
@@ -25,6 +22,7 @@ import { useBoolean } from '@ozen-ui/kit/useBoolean';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
 
 import { user, type Chat, chats } from '../../../../helpers';
+import { DualInput } from '../DualInput';
 import { Message } from '../Message';
 
 import s from './Conversation.module.css';
@@ -54,6 +52,12 @@ export const Conversation: FC<ConversationProps> = ({
       behavior: 'auto',
     });
   }, [chat]);
+
+  const handleSendMessage = (message: string, type: 'customer' | 'support') => {
+    // Here you would handle sending the message
+    console.log(`Sending ${type} message:`, message);
+    // You can implement the actual message sending logic here
+  };
 
   if (!idProp) {
     return (
@@ -161,11 +165,7 @@ export const Conversation: FC<ConversationProps> = ({
         })}
       </Stack>
       <Divider color="secondary" />
-      <Stack align="center" gap="s" className={s.conversationFooter} fullWidth>
-        <IconButton icon={AttachmentIcon} />
-        <Input placeholder="Ваше сообщение…" fullWidth />
-        <IconButton icon={SendIcon} />
-      </Stack>
+      <DualInput onSendMessage={handleSendMessage} />
     </Card>
   );
 };

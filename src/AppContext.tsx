@@ -24,7 +24,7 @@ import {
   ActionSettings,
   Cookies,
 } from './components';
-import { LoginPage, LogoutPage } from './pages';
+import { LogoutPage } from './pages';
 import { type AppSettings, loggedInAtom, settingsAtom } from './store.ts';
 
 const locales = {
@@ -114,7 +114,8 @@ export const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const renderContent = () => {
     if (!loggedIn) {
-      return <LoginPage />;
+      console.log('loggedIn', loggedIn);
+      // return <LoginPage />;
     }
 
     if (location === '/logout') {

@@ -1,0 +1,29 @@
+@import url('../../../../vars.modules.css');
+
+.dualInput {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+  padding: var(--spacing-s);
+}
+
+.inputRow {
+  position: relative;
+}
+
+.inputLabel {
+  min-inline-size: 80px;
+  text-align: start;
+  flex-shrink: 0;
+}
+
+/* Disabled input styling */
+.inputRow :global(.Input:disabled) {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.inputRow :global(.IconButton:disabled) {
+  opacity: 0.5;
+  pointer-events: none;
+} 

@@ -10,7 +10,6 @@ import {
 import {
   WelcomeBackWidget,
   CompletedTasksWidget,
-  HelpCenterWidget,
   CreatedIssuesWidget,
   ResolvedIncidentsWidget,
   TipsWidget,
@@ -39,9 +38,6 @@ export const MainPage = () => {
       </GridItem>
       <GridItem col={{ xs: 12, s: 6, m: 4 }}>
         <CreatedIssuesWidget />
-      </GridItem>
-      <GridItem col={{ xs: 12, s: 6, m: 6 }}>
-        <HelpCenterWidget />
       </GridItem>
     </Grid>
   );

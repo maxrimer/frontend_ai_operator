@@ -3,9 +3,7 @@ import { FC, ReactElement } from 'react';
 import {
   ChatMenuIcon,
   DashboardIcon,
-  UserCircleOutlineIcon,
   CartHandIcon,
-  PowerOutlineIcon,
   QuestionCircleOutlineIcon,
   FlameIcon,
   BrOzenIcon,
@@ -17,7 +15,6 @@ import { type ContainerBaseProps } from '@ozen-ui/kit/Container';
 
 import {
   MainPage,
-  ProfilePage,
   ChatPage,
   OrdersPage,
   HelpCenterPage,
@@ -117,13 +114,6 @@ const routes: Record<string, App> = {
     icon: DashboardIcon,
     component: () => <MainPage />,
   },
-  profile: {
-    title: 'Профиль',
-    link: '/profile',
-    path: '/profile',
-    icon: UserCircleOutlineIcon,
-    component: () => <ProfilePage />,
-  },
   chat: {
     title: 'Чат',
     link: '/chat',
@@ -145,12 +135,6 @@ const routes: Record<string, App> = {
     path: '/calendar',
     icon: CalendarIcon,
     component: () => <CalendarPage />,
-  },
-  logout: {
-    title: 'Завершить сеанс',
-    link: '/logout',
-    path: '/logout',
-    icon: PowerOutlineIcon,
   },
   'help-center': {
     title: 'Центр помощи',
@@ -196,10 +180,8 @@ export const navigation: Navigation = {
   routes,
   apps: [
     'main',
-    'profile',
     'chat',
     'orders',
     'calendar',
-    'logout',
   ],
 };

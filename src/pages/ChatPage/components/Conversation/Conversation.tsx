@@ -8,7 +8,7 @@ import {
   MenuHorizontalIcon,
   SearchIcon,
   SoundOffIcon,
-} from '@ozen-ui/icons';
+ UserCircleOutlineIcon } from '@ozen-ui/icons';
 import { scrollContainerToElement } from '@ozen-ui/kit/__inner__/cjs/utils/scrollContainerToElement';
 import { Avatar } from '@ozen-ui/kit/Avatar';
 import { Card } from '@ozen-ui/kit/Card';
@@ -102,7 +102,9 @@ export const Conversation: FC<ConversationProps> = ({
           />
         )}
         <Stack align="center" gap="l" style={{ minWidth: 0 }}>
-          <Avatar name={dialog.customer} />
+          <Avatar name='customer'>
+            <UserCircleOutlineIcon/>
+          </Avatar>
           <Stack direction="column" style={{ minWidth: 0 }}>
             <Typography variant="text-m_1" noWrap>
               {dialog.customer}
@@ -164,6 +166,7 @@ export const Conversation: FC<ConversationProps> = ({
         ref={bodyRef}
         fullWidth
       >
+        <div />
         {dialog.messages?.map((message) => {
           return (
             <Message

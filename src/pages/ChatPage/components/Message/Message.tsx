@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 
+import { SupportIcon, UserCircleOutlineIcon } from '@ozen-ui/icons';
 import { Avatar } from '@ozen-ui/kit/Avatar';
 import { spacing } from '@ozen-ui/kit/MixSpacing';
 import { Paper } from '@ozen-ui/kit/Paper';
@@ -14,6 +15,16 @@ import s from './Message.module.css';
 
 export const Message = forwardRef<HTMLDivElement, DialogMessage & { type: 'incoming' | 'outgoing' }>(
   ({ text, type, date }, ref) => {
+
+
+    const renderIcon = () => {
+      if (type === 'incoming') {
+        return <UserCircleOutlineIcon />;
+      }
+
+      return <SupportIcon/>;
+    }
+
     return (
       <Stack
         className={clsx(s.messageContainer, s[type], spacing({ mb: 'xl' }))}
@@ -22,7 +33,9 @@ export const Message = forwardRef<HTMLDivElement, DialogMessage & { type: 'incom
         align="center"
         fullWidth
       >
-        <Avatar name={type === 'incoming' ? 'Клиент' : 'Оператор'} size="s" />
+        <Avatar name={type === 'incoming' ? 'Клиент' : 'Оператор'} size="s">
+          {renderIcon()}
+        </Avatar>
         <Stack
           gap="xs"
           direction="column"

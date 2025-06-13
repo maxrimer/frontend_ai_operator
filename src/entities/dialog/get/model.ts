@@ -3,6 +3,8 @@ export interface DialogMessage {
   text: string;
   is_used: boolean;
   date: string;
+  source: string | null;
+  confidence: number;
 }
 
 export interface GetDialogResponse {

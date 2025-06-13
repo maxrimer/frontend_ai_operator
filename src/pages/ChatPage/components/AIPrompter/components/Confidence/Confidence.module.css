@@ -1,0 +1,40 @@
+.confidenceBar {
+  background-color: var(--color-additional-f2);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.confidenceBar.xs {
+  block-size: 4px;
+  inline-size: 40px;
+}
+
+.confidenceBar.s {
+  block-size: 6px;
+  inline-size: 60px;
+}
+
+.confidenceBar.m {
+  block-size: 8px;
+  inline-size: 80px;
+}
+
+.confidenceFill {
+  block-size: 100%;
+  border-radius: inherit;
+  transition: inline-size 0.3s ease, background-color 0.2s ease;
+}
+
+.confidenceFill.success {
+  background-color: var(--color-success-primary);
+}
+
+.confidenceFill.warning {
+  background-color: var(--color-warning-primary);
+}
+
+.confidenceFill.error {
+  background-color: var(--color-error-primary);
+} 

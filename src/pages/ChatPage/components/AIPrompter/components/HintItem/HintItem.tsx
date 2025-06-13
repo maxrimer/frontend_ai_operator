@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { Button } from '@ozen-ui/kit/ButtonNext';
+import { Link } from '@ozen-ui/kit/Link';
 import { Stack } from '@ozen-ui/kit/Stack';
 import { Typography } from '@ozen-ui/kit/Typography';
 import clsx from 'clsx';
@@ -8,6 +9,7 @@ import clsx from 'clsx';
 import { useSendMessage } from '../../../../../../entities/dialog';
 import { DialogMessage } from '../../../../../../entities/dialog/get/model';
 import s from '../../AIPrompter.module.css';
+import { Confidence } from '../Confidence';
 
 type HintItemProps = {
   hint: DialogMessage;
@@ -31,7 +33,16 @@ export const HintItem: FC<HintItemProps> = ({ hint, index, totalHints, dialogId,
     return isUsed ? 'used' : 'unused'; // Past hints: used or unused
   };
 
+  // Helper function to get confidence emoji and description
+  const getConfidenceDisplay = (confidence: number) => {
+    if (confidence >= 0.8) return { emoji: '🎯', description: 'Высокая точность' };
+    if (confidence >= 0.6) return { emoji: '⚡', description: 'Средняя точность' };
+
+    return { emoji: '🤔', description: 'Низкая точность' };
+  };
+
   const hintState = getHintState(index, totalHints, hint.is_used);
+  const { emoji, description } = getConfidenceDisplay(hint.confidence);
 
   const handleAccept = () => {
     sendMessage.mutate({
@@ -71,6 +82,42 @@ export const HintItem: FC<HintItemProps> = ({ hint, index, totalHints, dialogId,
           >
             {hint.text}
           </Typography>
+          
+          {/* Confidence display below text */}
+          <Stack direction="row" align="center" gap="xs">
+            <Typography variant="text-xs" style={{ fontSize: '14px' }}>
+              {emoji}
+            </Typography>
+            <Confidence 
+              value={hint.confidence} 
+              size="xs"
+            />
+            <Typography 
+              variant="text-xs" 
+              color="tertiary"
+              style={{ 
+                opacity: hintState === 'unused' ? 0.5 : 0.7,
+                fontSize: '11px'
+              }}
+            >
+              {description}
+            </Typography>
+          </Stack>
+          
+          {hint.source && (
+            <Link 
+              href={hint.source} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ 
+                fontSize: '12px',
+                opacity: hintState === 'unused' ? 0.6 : 0.8 
+              }}
+            >
+              📄 Источник документации
+            </Link>
+          )}
+          
           <Typography 
             variant="text-xs" 
             color="tertiary" 

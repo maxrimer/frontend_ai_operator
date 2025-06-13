@@ -1,0 +1,46 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        - NODE_ENV=production
+        - VITE_BASE_URL=${VITE_BASE_URL}
+        - VITE_API_URL=${VITE_API_URL:-}
+        - VITE_APP_TITLE=${VITE_APP_TITLE:-}
+        - VITE_MSW_ENABLED=${VITE_MSW_ENABLED:-false}
+    ports:
+      - "3000:80"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Development service (uncomment to use)
+  # app-dev:
+  #   build:
+  #     context: .
+  #     target: build
+  #     args:
+  #       - NODE_ENV=development
+  #       - VITE_BASE_URL=${VITE_BASE_URL}
+  #       - VITE_API_URL=${VITE_API_URL:-}
+  #       - VITE_APP_TITLE=${VITE_APP_TITLE:-}
+  #       - VITE_MSW_ENABLED=${VITE_MSW_ENABLED:-true}
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - NODE_ENV=development
+  #   command: pnpm dev
+  #   restart: unless-stopped 

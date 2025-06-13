@@ -22,7 +22,8 @@
 }
 
 .chatListBlock,
-.conversationBlock {
+.conversationBlock,
+.aiPrompterBlock {
   flex: 0 0 100%;
   inline-size: 100%;
   overflow: auto;
@@ -33,13 +34,9 @@
   }
 }
 
-/* AI Prompter as third column */
-.chatContainer :global(.aiPrompter) {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-end: 0;
-  inline-size: 320px;
-  z-index: 1000;
+/* AI Prompter hidden on mobile by default */
+.aiPrompterBlock {
+  display: none;
 }
 
 @media (--breakpoint-m) {
@@ -57,18 +54,16 @@
     flex: 6;
   }
 
+  .aiPrompterBlock {
+    flex: 4;
+    display: block;
+  }
+
   .chatListBlock,
-  .conversationBlock {
+  .conversationBlock,
+  .aiPrompterBlock {
     :global(.Card) {
       border-radius: var(--chat-border-radius);
     }
   }
-
-  /* AI Prompter as fixed right column on desktop */
-  .chatContainer :global(.aiPrompter) {
-    position: static;
-    flex: 3;
-    inline-size: auto;
-    z-index: auto;
-  }
-}
+} 

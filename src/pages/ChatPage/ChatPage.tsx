@@ -1,12 +1,9 @@
 import { useState, useCallback, CSSProperties, useRef, useEffect } from 'react';
 
-import { ExternalLinkIcon } from '@ozen-ui/icons';
-import { Button } from '@ozen-ui/kit/ButtonNext';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
 import { useTimer } from '@ozen-ui/kit/useTimer';
 
-import { useCreateNewDialog } from '../../entities/dialog/create/api';
-import { chats } from '../../helpers';
+import { useGetAllDialogs } from '../../entities/dialog/all/api';
 
 import s from './ChatPage.module.css';
 import { ChatList, Conversation, AIPrompter } from './components';
@@ -66,11 +63,20 @@ export const ChatPage = () => {
   const { m } = useBreakpoints();
   const ref = useRef<HTMLDivElement | null>(null);
   const isMobile = !m;
-  const [chatId, setChatId] = useState<number | null>(chats[0].chat_id);
-  const { mutate: createNewDialog, isPending, data: newDialog } = useCreateNewDialog();
+  const [chatId, setChatId] = useState<number | null>(null);
+  
+  const { data: dialogList = [], isLoading, error } = useGetAllDialogs();
+
+  useEffect(() => {
+    if (dialogList.length > 0 && chatId === null) {
+      setChatId(dialogList[0].chat_id);
+    }
+  }, [dialogList, chatId]);
 
   const preventFocus = (active: boolean) => {
-    const focusableElements = getFocusableElements(ref.current!);
+    if (!ref.current) return;
+    
+    const focusableElements = getFocusableElements(ref.current);
 
     for (const item of focusableElements) {
       item.tabIndex = active ? -1 : 0;
@@ -95,7 +101,27 @@ export const ChatPage = () => {
     preventFocus(animated);
   }, [animated]);
 
-  console.log('newDialog', newDialog);
+  if (isLoading || !dialogList) {
+    return (
+      <div className={s.chat}>
+        <div className={s.chatContainer}>
+          <div>Loading chats...</div>
+        </div>
+      </div>
+    );
+  }
+
+  console.log('dialogList', dialogList);
+
+  if (error) {
+    return (
+      <div className={s.chat}>
+        <div className={s.chatContainer}>
+          <div>Error loading chats: {error.message}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={s.chat}>
@@ -116,14 +142,7 @@ export const ChatPage = () => {
               isMobile && state === 'enter' && !animated ? 'hidden' : 'visible',
           }}
         >
-          <Button
-            loading={isPending}
-            onClick={() => createNewDialog()}
-          >
-            <ExternalLinkIcon />
-            Create New Dialog
-          </Button>
-          <ChatList id={chatId} onClickChatListItem={open} />
+          <ChatList id={chatId} onClickChatListItem={open} dialogList={dialogList} />
         </div>
         <div
           className={s.conversationBlock}
@@ -134,7 +153,9 @@ export const ChatPage = () => {
         >
           <Conversation id={chatId} onClickBackButton={close} />
         </div>
-        <AIPrompter />
+        <div className={s.aiPrompterBlock}>
+          <AIPrompter dialogId={chatId} />
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 
-import { ChatsIcon } from '@ozen-ui/icons';
+import { ChatsIcon, ExternalLinkIcon } from '@ozen-ui/icons';
 import { Avatar } from '@ozen-ui/kit/Avatar';
+import { Button } from '@ozen-ui/kit/ButtonNext';
 import { Card } from '@ozen-ui/kit/Card';
 import { Divider } from '@ozen-ui/kit/Divider';
 import { Input } from '@ozen-ui/kit/Input';
@@ -11,35 +12,63 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@ozen-ui/kit/List';
+import { Stack } from '@ozen-ui/kit/Stack';
 import { Typography } from '@ozen-ui/kit/Typography';
 import clsx from 'clsx';
 
-import { GetDialogResponse } from '../../../../entities/dialog/get/model';
-import { chats } from '../../../../helpers';
-import { formatDate } from '../../utils';
+import { DialogListItem } from '../../../../entities/dialog/all/model';
+import { useCreateNewDialog } from '../../../../entities/dialog/create/api';
 
 import s from './ChatList.module.css';
+import { CreateDialogModal } from './CreateDialogModal';
+
+
 
 type ChatListProps = {
-  id?: GetDialogResponse['chat_id'] | null;
-  onClickChatListItem?: (id: GetDialogResponse['chat_id']) => void;
+  id?: number | null;
+  onClickChatListItem?: (id: number) => void;
+  dialogList: DialogListItem[];
 };
 
 export const ChatList: FC<ChatListProps> = ({
   onClickChatListItem,
   id: isProp,
+  dialogList,
 }) => {
+  const { mutate: createNewDialog, isPending, data: newDialog } = useCreateNewDialog();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Auto-select newly created dialog
+  useEffect(() => {
+    if (newDialog?.chat_id && onClickChatListItem) {
+      onClickChatListItem(newDialog.chat_id);
+    }
+  }, [newDialog, onClickChatListItem]);
+
+  const handleCreateDialog = (customerNumber: string) => {
+    // Call the endpoint with customer number
+    createNewDialog({ customerNumber });
+    setIsDialogOpen(false);
+  };
+
   return (
     <Card borderWidth="none" className={s.chatList}>
       <div className={s.chatListHeader}>
         <Input placeholder="Поиск чатов" renderLeft={ChatsIcon} fullWidth />
+        <Button
+            onClick={() => setIsDialogOpen(true)}
+          >
+            <Stack direction="rowReverse" gap="s" align="center" justify="center">
+              <ExternalLinkIcon />
+              Создать новую симуляцию
+            </Stack>
+          </Button>
       </div>
+      
       <Divider color="secondary" />
       <div className={s.chatListBody}>
         <List disablePadding>
-          {chats.map(({ chat_id, customer, messages }) => {
-            const lastMessage = messages?.[messages.length - 1];
-
+          {dialogList.map(({ chat_id, lastMessage, status, summary }) => {
             return (
               <ListItemButton
                 key={chat_id}
@@ -50,11 +79,11 @@ export const ChatList: FC<ChatListProps> = ({
                 }}
               >
                 <ListItemIcon>
-                  <Avatar name={customer} />
+                  <Avatar name={`Chat ${chat_id}`} />
                 </ListItemIcon>
                 <ListItemText
-                  primary={customer}
-                  secondary={lastMessage?.text}
+                  primary={summary || `Dialog ${chat_id}`}
+                  secondary={lastMessage}
                   primaryTypographyProps={{
                     variant: 'text-m_1',
                     noWrap: true,
@@ -67,7 +96,7 @@ export const ChatList: FC<ChatListProps> = ({
                 />
                 <ListItemIcon>
                   <Typography variant="text-xs" color="secondary">
-                    {formatDate(lastMessage?.date)}
+                    {status}
                   </Typography>
                 </ListItemIcon>
               </ListItemButton>
@@ -76,6 +105,13 @@ export const ChatList: FC<ChatListProps> = ({
         </List>
       </div>
       <Divider color="secondary" />
+      
+      <CreateDialogModal
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onConfirm={handleCreateDialog}
+        loading={isPending}
+      />
     </Card>
   );
 };

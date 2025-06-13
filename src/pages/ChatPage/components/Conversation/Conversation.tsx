@@ -21,15 +21,14 @@ import { cnTypography, Typography } from '@ozen-ui/kit/Typography';
 import { useBoolean } from '@ozen-ui/kit/useBoolean';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
 
-import { GetDialogResponse } from '../../../../entities/dialog/get/model';
-import { chats } from '../../../../helpers';
+import { useDialog } from '../../../../entities/dialog/libs/useDialog/useDialog';
 import { DualInput } from '../DualInput';
 import { Message } from '../Message';
 
 import s from './Conversation.module.css';
 
 type ConversationProps = {
-  id?: GetDialogResponse['chat_id'] | null;
+  id?: number | null;
   onClickBackButton?: () => void;
 };
 
@@ -43,15 +42,19 @@ export const Conversation: FC<ConversationProps> = ({
   const laseMessageRef = useRef<HTMLDivElement | null>(null);
   const { m } = useBreakpoints();
   const isMobile = !m;
-  const chat = chats.find(({ chat_id }) => chat_id === idProp);
+  
+  // Fetch individual dialog data when ID is provided using useDialog
+  const { dialog } = useDialog({ dialogId: idProp || 0 });
 
   useEffect(() => {
-    scrollContainerToElement({
-      container: bodyRef.current,
-      element: laseMessageRef.current,
-      behavior: 'auto',
-    });
-  }, [chat]);
+    if (dialog) {
+      scrollContainerToElement({
+        container: bodyRef.current,
+        element: laseMessageRef.current,
+        behavior: 'auto',
+      });
+    }
+  }, [dialog]);
 
   const handleSendMessage = (message: string, type: 'customer' | 'operator') => {
     // Here you would handle sending the message
@@ -74,6 +77,20 @@ export const Conversation: FC<ConversationProps> = ({
     );
   }
 
+  if (!dialog) {
+    return (
+      <Card
+        borderWidth="none"
+        className={s.conversation}
+        as={Stack}
+        align="center"
+        justify="center"
+      >
+        <Card>Loading conversation...</Card>
+      </Card>
+    );
+  }
+
   return (
     <Card borderWidth="none" className={s.conversation}>
       <Stack gap="m" align="center" className={s.conversationHeader} fullWidth>
@@ -85,13 +102,13 @@ export const Conversation: FC<ConversationProps> = ({
           />
         )}
         <Stack align="center" gap="l" style={{ minWidth: 0 }}>
-          <Avatar name={chat?.customer} />
+          <Avatar name={dialog.customer} />
           <Stack direction="column" style={{ minWidth: 0 }}>
             <Typography variant="text-m_1" noWrap>
-              {chat?.customer}
+              {dialog.customer}
             </Typography>
             <Typography variant="text-s" color="tertiary" noWrap>
-              {chat?.status || 'В сети'}
+              {dialog.status || 'В сети'}
             </Typography>
           </Stack>
         </Stack>
@@ -147,7 +164,7 @@ export const Conversation: FC<ConversationProps> = ({
         ref={bodyRef}
         fullWidth
       >
-        {chat?.messages?.map((message) => {
+        {dialog.messages?.map((message) => {
           return (
             <Message
               {...message}

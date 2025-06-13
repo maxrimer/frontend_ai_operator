@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import axiosInstance from '../../../configs/axios.config';
 
@@ -10,14 +10,18 @@ const createDialog = async (data: CreateDialogRequest): Promise<CreateDialogResp
   return response.data;
 };
 
+interface CreateNewDialogRequest {
+  customerNumber: string;
+}
+
 interface CreateNewDialogResponse {
   chat_id: number;
   messages: string[];
   status: string;
 }
 
-const createNewDialog = async (): Promise<CreateNewDialogResponse> => {
-  const response = await axiosInstance.post<CreateNewDialogResponse>('/dialog/create');
+const createNewDialog = async (data: CreateNewDialogRequest): Promise<CreateNewDialogResponse> => {
+  const response = await axiosInstance.post<CreateNewDialogResponse>('/dialog/create', data);
 
   return response.data;
 };
@@ -29,7 +33,15 @@ export const useCreateDialog = () => {
 };
 
 export const useCreateNewDialog = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: createNewDialog,
+    onSuccess: () => {
+      // Invalidate and refetch the dialogs list
+      queryClient.invalidateQueries({
+        queryKey: ['dialogs', 'all'],
+      });
+    },
   });
 }; 

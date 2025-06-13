@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useMemo } from 'react';
 
 import { ChatsIcon, ExternalLinkIcon } from '@ozen-ui/icons';
 import { Avatar } from '@ozen-ui/kit/Avatar';
@@ -37,6 +37,7 @@ export const ChatList: FC<ChatListProps> = ({
 }) => {
   const { mutate: createNewDialog, isPending, data: newDialog } = useCreateNewDialog();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Auto-select newly created dialog
   useEffect(() => {
@@ -44,6 +45,23 @@ export const ChatList: FC<ChatListProps> = ({
       onClickChatListItem(newDialog.chat_id);
     }
   }, [newDialog, onClickChatListItem]);
+
+  // Filter dialogList based on search term
+  const filteredDialogList = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return dialogList;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+
+    return dialogList.filter(({ chat_id, last_message, summary }) => {
+      const summaryMatch = summary?.toLowerCase().includes(searchLower);
+      const messageMatch = last_message?.toLowerCase().includes(searchLower);
+      const idMatch = chat_id.toString().includes(searchTerm);
+      
+      return summaryMatch || messageMatch || idMatch;
+    });
+  }, [dialogList, searchTerm]);
 
   const handleCreateDialog = (customerNumber: string) => {
     // Call the endpoint with customer number
@@ -54,7 +72,13 @@ export const ChatList: FC<ChatListProps> = ({
   return (
     <Card borderWidth="none" className={s.chatList}>
       <Stack gap="s" direction='column' className={s.chatListHeader}>
-        <Input placeholder="Поиск чатов" renderLeft={ChatsIcon} fullWidth />
+        <Input 
+          placeholder="Поиск чатов" 
+          renderLeft={ChatsIcon} 
+          fullWidth 
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <Button
             fullWidth
             onClick={() => setIsDialogOpen(true)}
@@ -69,7 +93,7 @@ export const ChatList: FC<ChatListProps> = ({
       <Divider color="secondary" />
       <div className={s.chatListBody}>
         <List disablePadding>
-          {dialogList.map(({ chat_id, last_message: lastMessage, status, summary }) => {
+          {filteredDialogList.map(({ chat_id, last_message: lastMessage, status, summary }) => {
             return (
               <ListItemButton
                 key={chat_id}

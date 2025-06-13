@@ -1,17 +1,16 @@
-import { FC, useRef, useEffect } from 'react';
+import { FC, useRef, useEffect, useState } from 'react';
 
 import {
-  ArchiveIcon,
   BanIcon,
   ChevronLeftIcon,
-  DeleteIcon,
   MenuHorizontalIcon,
   SearchIcon,
-  SoundOffIcon,
- UserCircleOutlineIcon } from '@ozen-ui/icons';
+  UserCircleOutlineIcon } from '@ozen-ui/icons';
 import { scrollContainerToElement } from '@ozen-ui/kit/__inner__/cjs/utils/scrollContainerToElement';
 import { Avatar } from '@ozen-ui/kit/Avatar';
+import { Button } from '@ozen-ui/kit/ButtonNext';
 import { Card } from '@ozen-ui/kit/Card';
+import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogSubtitle, DialogTitle } from '@ozen-ui/kit/Dialog';
 import { Divider } from '@ozen-ui/kit/Divider';
 import { IconButton } from '@ozen-ui/kit/IconButtonNext';
 import { Menu, MenuItem, MenuItemIcon, MenuItemText } from '@ozen-ui/kit/Menu';
@@ -20,7 +19,9 @@ import { Stack } from '@ozen-ui/kit/Stack';
 import { cnTypography, Typography } from '@ozen-ui/kit/Typography';
 import { useBoolean } from '@ozen-ui/kit/useBoolean';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
+import { useQueryClient } from '@tanstack/react-query';
 
+import { useCloseDialog } from '../../../../entities/dialog/api';
 import { useDialog } from '../../../../entities/dialog/libs/useDialog/useDialog';
 import { DualInput } from '../DualInput';
 import { Message } from '../Message';
@@ -34,6 +35,53 @@ type ConversationProps = {
   onOperatorMessageChange?: (value: string) => void;
 };
 
+// Close Dialog Modal Component
+type CloseDialogModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  loading?: boolean;
+};
+
+const CloseDialogModal: FC<CloseDialogModalProps> = ({
+  open,
+  onClose,
+  onConfirm,
+  loading = false,
+}) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogHeader>
+        <DialogTitle>Закрыть диалог</DialogTitle>
+        <DialogSubtitle>Вы уверены, что хотите закрыть этот диалог?</DialogSubtitle>
+      </DialogHeader>
+      
+      <DialogBody>
+        <Typography>
+          После закрытия диалога вы не сможете продолжить переписку с клиентом. 
+          Это действие нельзя будет отменить.
+        </Typography>
+      </DialogBody>
+      
+      <DialogFooter>
+        <Stack direction="row" gap="s">
+          <Button color="secondary" onClick={onClose} disabled={loading}>
+            Отмена
+          </Button>
+          <Button 
+            variant="contained" 
+            color="error"
+            onClick={onConfirm}
+            loading={loading}
+          >
+            Закрыть диалог
+          </Button>
+        </Stack>
+      </DialogFooter>
+    </Dialog>
+  );
+};
+
 export const Conversation: FC<ConversationProps> = ({
   onClickBackButton,
   id: idProp,
@@ -41,14 +89,19 @@ export const Conversation: FC<ConversationProps> = ({
   onOperatorMessageChange,
 }) => {
   const [open, { off, toggle }] = useBoolean();
+  const [closeDialogModalOpen, setCloseDialogModalOpen] = useState(false);
   const menuAnchorRef = useRef<HTMLButtonElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const laseMessageRef = useRef<HTMLDivElement | null>(null);
   const { m } = useBreakpoints();
   const isMobile = !m;
+  const queryClient = useQueryClient();
   
   // Fetch individual dialog data when ID is provided using useDialog
   const { dialog } = useDialog({ dialogId: idProp || 0 });
+  
+  // Close dialog mutation
+  const closeDialogMutation = useCloseDialog();
 
   useEffect(() => {
     if (dialog) {
@@ -68,6 +121,37 @@ export const Conversation: FC<ConversationProps> = ({
     if (type === 'operator' && onOperatorMessageChange) {
       onOperatorMessageChange('');
     }
+  };
+
+  const handleCloseDialog = () => {
+    setCloseDialogModalOpen(true);
+    off(); // Close menu
+  };
+
+  const handleConfirmCloseDialog = () => {
+    if (!idProp) return;
+    
+    closeDialogMutation.mutate(idProp, {
+      onSuccess: () => {
+        // Invalidate caches
+        queryClient.invalidateQueries({
+          queryKey: ['dialogs', 'all'],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: ['dialog', idProp],
+        });
+        
+        setCloseDialogModalOpen(false);
+        
+        // Optionally navigate back or handle post-close logic
+        onClickBackButton?.();
+      },
+      onError: (error) => {
+        console.error('Failed to close dialog:', error);
+        // Handle error - maybe show a snackbar
+      }
+    });
   };
 
   if (!idProp) {
@@ -137,32 +221,11 @@ export const Conversation: FC<ConversationProps> = ({
             placement="bottom-end"
             style={{ minWidth: 200 }}
           >
-            <MenuItem>
+            <MenuItem onClick={handleCloseDialog}>
               <MenuItemIcon>
                 <BanIcon />
               </MenuItemIcon>
-              <MenuItemText primary="Блокировать" />
-            </MenuItem>
-            <MenuItem>
-              <MenuItemIcon>
-                <ArchiveIcon />
-              </MenuItemIcon>
-              <MenuItemText primary="Архив" />
-            </MenuItem>
-            <MenuItem>
-              <MenuItemIcon>
-                <SoundOffIcon />
-              </MenuItemIcon>
-              <MenuItemText primary="Беззвучный" />
-            </MenuItem>
-            <MenuItem>
-              <MenuItemIcon>
-                <DeleteIcon className={cnTypography({ color: 'error' })} />
-              </MenuItemIcon>
-              <MenuItemText
-                primary="Удалить"
-                primaryTypographyProps={{ color: 'error' }}
-              />
+              <MenuItemText primary="Закрыть диалог" className={cnTypography({ color: 'error' })} />
             </MenuItem>
           </Menu>
         </Stack>
@@ -191,6 +254,12 @@ export const Conversation: FC<ConversationProps> = ({
         dialogId={idProp!} 
         onSendMessage={handleSendMessage} 
         operatorMessageValue={operatorMessageValue}
+      />
+      <CloseDialogModal
+        open={closeDialogModalOpen}
+        onClose={() => setCloseDialogModalOpen(false)}
+        onConfirm={handleConfirmCloseDialog}
+        loading={closeDialogMutation.isPending}
       />
     </Card>
   );

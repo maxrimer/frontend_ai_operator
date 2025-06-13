@@ -67,7 +67,7 @@ export const ChatPage = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const isMobile = !m;
   const [chatId, setChatId] = useState<number | null>(chats[0].chat_id);
-  const { mutate: createNewDialog } = useCreateNewDialog();
+  const { mutate: createNewDialog, isPending, data: newDialog } = useCreateNewDialog();
 
   const preventFocus = (active: boolean) => {
     const focusableElements = getFocusableElements(ref.current!);
@@ -85,7 +85,6 @@ export const ChatPage = () => {
     setChatId(id);
     if (isMobile) slide();
   };
-  console.log('chatId', chatId)
 
   const { slide, state, animated } = useAnimation({
     exited: () => setChatId(null),
@@ -95,6 +94,8 @@ export const ChatPage = () => {
   useEffect(() => {
     preventFocus(animated);
   }, [animated]);
+
+  console.log('newDialog', newDialog);
 
   return (
     <div className={s.chat}>
@@ -116,6 +117,7 @@ export const ChatPage = () => {
           }}
         >
           <Button
+            loading={isPending}
             onClick={() => createNewDialog()}
           >
             <ExternalLinkIcon />

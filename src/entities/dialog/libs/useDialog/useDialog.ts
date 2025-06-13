@@ -14,8 +14,8 @@ export const useDialog = ({ dialogId }: UseDialogProps): UseDialog => {
 
   const dto: GetDialogResponseV2 | null = data ? {
     ...data,
-    hints: data.messages.filter((message) => message.role === 'hint'),
-    messages: data.messages.filter((message) => message.role !== 'hint'),
+    hints: data.messages.filter((message) => message.role === 'suffler'),
+    messages: data.messages.filter((message) => message.role !== 'suffler'),
   } : null;
 
   return {

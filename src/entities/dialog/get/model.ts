@@ -1,5 +1,5 @@
 export interface DialogMessage {
-  role: 'customer' | 'operator' | 'hint';
+  role: 'customer' | 'operator' | 'suffler';
   text: string;
   is_used: boolean;
   date: string;

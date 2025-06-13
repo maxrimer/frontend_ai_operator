@@ -2,7 +2,7 @@ import { DialogMessage } from '../get/model';
 
 export interface SendMessageRequest {
   chat_id: number;
-  role: 'customer' | 'operator' | 'hint';
+  role: 'customer' | 'operator' | 'suffler';
   text: string;
 }
 

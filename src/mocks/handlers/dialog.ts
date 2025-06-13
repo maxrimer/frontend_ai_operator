@@ -49,7 +49,7 @@ export const dialogHandlers = [
   }),
 
     // Get all dialogs - Returns DialogListItem[] as per the true API contract
-    http.get(`${baseUrl}/dialog/chats`, () => {
+    http.get(`${baseUrl}/dialog/all`, () => {
       return HttpResponse.json<GetAllDialogsResponse>([
         {
           chat_id: 1,
@@ -94,7 +94,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:01:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Рекомендуется проверить скорость соединения и перезагрузить роутер',
             is_used: true,
             date: new Date('2024-01-15T09:01:30Z').toISOString(),
@@ -124,7 +124,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:06:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Если проблема не решается, возможно нужно проверить кабель или связаться с техподдержкой',
             is_used: false,
             date: new Date('2024-01-15T09:07:00Z').toISOString(),
@@ -151,7 +151,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:01:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Предложить популярные пакеты: Спорт+, Кино премиум, Детский',
             is_used: false,
             date: new Date('2024-01-15T10:01:30Z').toISOString(),
@@ -175,7 +175,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:04:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Сейчас действует акция: первый месяц за 99 рублей',
             is_used: true,
             date: new Date('2024-01-15T10:04:30Z').toISOString(),
@@ -187,13 +187,13 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:05:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Можно предложить дополнительные услуги: антивирус, родительский контроль',
             is_used: false,
             date: new Date('2024-01-15T10:06:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Новая подсказка: у клиента хорошая история платежей, можно предложить скидку',
             is_used: false,
             date: new Date('2024-01-15T10:07:00Z').toISOString(),
@@ -226,7 +226,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T11:02:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Возможны технические работы в районе или проблема с сигналом',
             is_used: false,
             date: new Date('2024-01-15T11:02:30Z').toISOString(),
@@ -238,7 +238,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T11:04:00Z').toISOString(),
           },
           {
-            role: 'hint' as const,
+            role: 'suffler' as const,
             text: 'Рекомендуется уведомить клиента о возможной компенсации за время простоя',
             is_used: false,
             date: new Date('2024-01-15T11:05:00Z').toISOString(),
@@ -280,8 +280,8 @@ export const dialogHandlers = [
     });
   }),
 
-  // Add hint
-  http.post(`${baseUrl}/dialog/hint`, () => {
+  // Add suffler
+  http.post(`${baseUrl}/dialog/suffler`, () => {
     return HttpResponse.json(true);
   }),
 

@@ -4,7 +4,6 @@ import {
   BanIcon,
   ChevronLeftIcon,
   MenuHorizontalIcon,
-  SearchIcon,
   UserCircleOutlineIcon } from '@ozen-ui/icons';
 import { scrollContainerToElement } from '@ozen-ui/kit/__inner__/cjs/utils/scrollContainerToElement';
 import { Avatar } from '@ozen-ui/kit/Avatar';
@@ -21,8 +20,9 @@ import { useBoolean } from '@ozen-ui/kit/useBoolean';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { useCloseDialog } from '../../../../entities/dialog/api';
+import { useCloseDialog, DialogStatus } from '../../../../entities/dialog/api';
 import { useDialog } from '../../../../entities/dialog/libs/useDialog/useDialog';
+import { DialogStatus as DialogStatusComponent } from '../DialogStatus';
 import { DualInput } from '../DualInput';
 import { Message } from '../Message';
 
@@ -201,13 +201,15 @@ export const Conversation: FC<ConversationProps> = ({
             <Typography variant="text-m_1" noWrap>
               {dialog.customer}
             </Typography>
-            <Typography variant="text-s" color="tertiary" noWrap>
-              {dialog.status || 'В сети'}
-            </Typography>
+            <Stack direction="row" align="center" gap="s">
+              <DialogStatusComponent status={dialog.status || DialogStatus.ACTIVE} size="xs" />
+              <Typography variant="text-s" color="tertiary" noWrap>
+                {dialog.status === DialogStatus.CLOSED ? 'Диалог закрыт' : 'В сети'}
+              </Typography>
+            </Stack>
           </Stack>
         </Stack>
         <Stack className={spacing({ ml: 'auto' })} gap="s">
-          <IconButton size="s" icon={<SearchIcon size="m" />} />
           <IconButton
             ref={menuAnchorRef}
             size="s"
@@ -254,6 +256,7 @@ export const Conversation: FC<ConversationProps> = ({
         dialogId={idProp!} 
         onSendMessage={handleSendMessage} 
         operatorMessageValue={operatorMessageValue}
+        disabled={dialog.status === DialogStatus.CLOSED}
       />
       <CloseDialogModal
         open={closeDialogModalOpen}

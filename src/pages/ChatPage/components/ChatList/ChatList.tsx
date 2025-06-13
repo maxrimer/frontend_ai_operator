@@ -13,11 +13,11 @@ import {
   ListItemText,
 } from '@ozen-ui/kit/List';
 import { Stack } from '@ozen-ui/kit/Stack';
-import { Typography } from '@ozen-ui/kit/Typography';
 import clsx from 'clsx';
 
 import { DialogListItem } from '../../../../entities/dialog/all/model';
 import { useCreateNewDialog } from '../../../../entities/dialog/create/api';
+import { DialogStatus } from '../DialogStatus';
 
 import s from './ChatList.module.css';
 import { CreateDialogModal } from './CreateDialogModal';
@@ -96,9 +96,7 @@ export const ChatList: FC<ChatListProps> = ({
                   }}
                 />
                 <ListItemIcon>
-                  <Typography variant="text-xs" color="secondary">
-                    {status}
-                  </Typography>
+                  <DialogStatus status={status} size="xs" />
                 </ListItemIcon>
               </ListItemButton>
             );

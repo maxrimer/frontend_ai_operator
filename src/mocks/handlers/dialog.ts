@@ -382,7 +382,16 @@ export const dialogHandlers = [
   }),
 
   // Close dialog
-  http.post(`${baseUrl}/dialog/close`, () => {
+  http.post(`${baseUrl}/dialog/close`, async ({ request }) => {
+    const url = new URL(request.url);
+    const chatId = url.searchParams.get('chat_id');
+    
+    if (chatId) {
+      // Here you would normally update the dialog status in your database
+      // For mock purposes, we'll just return success
+      console.log(`Closing dialog ${chatId}`);
+    }
+    
     return HttpResponse.json(true);
   }),
 ]; 

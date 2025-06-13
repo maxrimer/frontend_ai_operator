@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import axiosInstance from '../../../configs/axios.config';
 
@@ -13,7 +13,20 @@ const closeDialog = async (chat_id: number): Promise<CloseDialogResponse> => {
 };
 
 export const useCloseDialog = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: closeDialog,
+    onSuccess: (_, variables) => {
+      // Invalidate and refetch the specific dialog
+      queryClient.invalidateQueries({
+        queryKey: ['dialog', variables],
+      });
+
+      // Also invalidate the dialogs list
+      queryClient.invalidateQueries({
+        queryKey: ['dialogs', 'all'],
+      });
+    },
   });
 }; 

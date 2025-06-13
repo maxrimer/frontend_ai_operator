@@ -18,9 +18,15 @@ type DualInputProps = {
   dialogId: number;
   onSendMessage?: (message: string, type: 'customer' | 'operator') => void;
   operatorMessageValue?: string;
+  disabled?: boolean;
 };
 
-export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage, operatorMessageValue }) => {
+export const DualInput: FC<DualInputProps> = ({ 
+  dialogId, 
+  onSendMessage, 
+  operatorMessageValue,
+  disabled = false 
+}) => {
   const [customerMessage, setCustomerMessage] = useState('');
   const [operatorMessage, setOperatorMessage] = useState('');
 
@@ -34,6 +40,8 @@ export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage, operato
   }, [operatorMessageValue]);
 
   const handleSend = (messageType: 'customer' | 'operator') => {
+    if (disabled) return;
+    
     const message = messageType === 'customer' ? customerMessage : operatorMessage;
 
     if (message.trim()) {
@@ -63,6 +71,7 @@ export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage, operato
   };
 
   const isLoading = sendMessage.isPending;
+  const isInputDisabled = disabled || isLoading;
 
   return (
     <div className={s.dualInput}>
@@ -72,19 +81,19 @@ export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage, operato
           Клиент:
         </Typography>
         <Input 
-          placeholder="Сообщение от клиента..."
+          placeholder={disabled ? "Диалог закрыт" : "Сообщение от клиента..."}
           value={customerMessage}
           onChange={(e) => setCustomerMessage(e.target.value)}
           onKeyPress={(e) => handleKeyPress(e, 'customer')}
           renderLeft={UserIcon}
-          disabled={isLoading}
+          disabled={isInputDisabled}
           fullWidth
         />
         <IconButton 
           icon={SendIcon} 
           size="s"
           onClick={() => handleSend('customer')}
-          disabled={!customerMessage.trim() || isLoading}
+          disabled={!customerMessage.trim() || isInputDisabled}
         />
       </Stack>
 
@@ -94,19 +103,19 @@ export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage, operato
           Оператор:
         </Typography>
         <Input 
-          placeholder="Ответ оператора..."
+          placeholder={disabled ? "Диалог закрыт" : "Ответ оператора..."}
           value={operatorMessage}
           onChange={(e) => setOperatorMessage(e.target.value)}
           onKeyPress={(e) => handleKeyPress(e, 'operator')}
           renderLeft={SupportIcon}
-          disabled={isLoading}
+          disabled={isInputDisabled}
           fullWidth
         />
         <IconButton 
           icon={SendIcon} 
           size="s"
           onClick={() => handleSend('operator')}
-          disabled={!operatorMessage.trim() || isLoading}
+          disabled={!operatorMessage.trim() || isInputDisabled}
         />
       </Stack>
     </div>

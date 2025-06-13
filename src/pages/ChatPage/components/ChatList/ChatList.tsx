@@ -14,14 +14,15 @@ import {
 import { Typography } from '@ozen-ui/kit/Typography';
 import clsx from 'clsx';
 
-import { Chat, chats } from '../../../../helpers';
+import { GetDialogResponse } from '../../../../entities/dialog/get/model';
+import { chats } from '../../../../helpers';
 import { formatDate } from '../../utils';
 
 import s from './ChatList.module.css';
 
 type ChatListProps = {
-  id?: Chat['id'] | null;
-  onClickChatListItem?: (id: Chat['id']) => void;
+  id?: GetDialogResponse['chat_id'] | null;
+  onClickChatListItem?: (id: GetDialogResponse['chat_id']) => void;
 };
 
 export const ChatList: FC<ChatListProps> = ({
@@ -36,26 +37,23 @@ export const ChatList: FC<ChatListProps> = ({
       <Divider color="secondary" />
       <div className={s.chatListBody}>
         <List disablePadding>
-          {chats.map(({ id, user, messages }) => {
+          {chats.map(({ chat_id, customer, messages }) => {
             const lastMessage = messages?.[messages.length - 1];
-            const AvatarIcon = user.avatar?.icon;
 
             return (
               <ListItemButton
-                key={id}
+                key={chat_id}
                 align="start"
-                className={clsx([id === isProp && s.selected])}
+                className={clsx([chat_id === isProp && s.selected])}
                 onClick={() => {
-                  onClickChatListItem?.(id);
+                  onClickChatListItem?.(chat_id);
                 }}
               >
                 <ListItemIcon>
-                  <Avatar name={user.fullName} src={user.avatar?.url}>
-                    {AvatarIcon && <AvatarIcon />}
-                  </Avatar>
+                  <Avatar name={customer} />
                 </ListItemIcon>
                 <ListItemText
-                  primary={user.fullName}
+                  primary={customer}
                   secondary={lastMessage?.text}
                   primaryTypographyProps={{
                     variant: 'text-m_1',

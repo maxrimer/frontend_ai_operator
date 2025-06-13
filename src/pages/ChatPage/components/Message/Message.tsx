@@ -1,23 +1,19 @@
 import { forwardRef } from 'react';
 
 import { Avatar } from '@ozen-ui/kit/Avatar';
-import { File } from '@ozen-ui/kit/File';
 import { spacing } from '@ozen-ui/kit/MixSpacing';
 import { Paper } from '@ozen-ui/kit/Paper';
 import { Stack } from '@ozen-ui/kit/Stack';
 import { Typography } from '@ozen-ui/kit/Typography';
 import clsx from 'clsx';
 
-import { Image } from '../../../../components';
-import { ChatMessage, User } from '../../../../helpers';
+import { DialogMessage } from '../../../../entities/dialog/get/model';
 import { formatDate } from '../../utils';
 
 import s from './Message.module.css';
 
-export const Message = forwardRef<HTMLDivElement, ChatMessage & { user: User }>(
-  ({ user, text, type, assets, date, emoji }, ref) => {
-    const AvatarIcon = user?.avatar?.icon;
-
+export const Message = forwardRef<HTMLDivElement, DialogMessage & { type: 'incoming' | 'outgoing' }>(
+  ({ text, type, date }, ref) => {
     return (
       <Stack
         className={clsx(s.messageContainer, s[type], spacing({ mb: 'xl' }))}
@@ -26,9 +22,7 @@ export const Message = forwardRef<HTMLDivElement, ChatMessage & { user: User }>(
         align="center"
         fullWidth
       >
-        <Avatar name={user?.fullName} size="s" src={user?.avatar?.url}>
-          {AvatarIcon && <AvatarIcon />}
-        </Avatar>
+        <Avatar name={type === 'incoming' ? 'Оператор' : 'Клиент'} size="s" />
         <Stack
           gap="xs"
           direction="column"
@@ -41,38 +35,9 @@ export const Message = forwardRef<HTMLDivElement, ChatMessage & { user: User }>(
             gap="xs"
             radius="l"
           >
-            <Typography variant="text-m_1">{user?.fullName}</Typography>
             <Typography as="span" className={s.text}>
-              {!emoji && text}
-              {emoji && <img src={emoji} alt="emoji" width={100} />}
+              {text}
             </Typography>
-            {!!assets?.length &&
-              assets.map(({ format, name, size, url }) => {
-                if (format === 'jpg' || format === 'png')
-                  return (
-                    <Image
-                      className={s.img}
-                      key={name}
-                      alt={name}
-                      width="100%"
-                      src={url}
-                    />
-                  );
-
-                return (
-                  <Stack gap="m" align="start" key={name}>
-                    <File color="primary">{format?.toUpperCase()}</File>
-                    <Stack direction="column">
-                      <Typography variant="text-s" noWrap>
-                        {name}
-                      </Typography>
-                      <Typography variant="text-s" color="tertiary">
-                        {size}
-                      </Typography>
-                    </Stack>
-                  </Stack>
-                );
-              })}
           </Stack>
           <Typography
             variant="text-s"

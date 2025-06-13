@@ -1,189 +1,125 @@
-import { BerekeIcon } from '@ozen-ui/icons';
-import { generateUniqKey } from '@ozen-ui/kit/__inner__/cjs/utils/generateUniqKey/generateUniqKey';
 
-import user_1 from '../assets/avatar-girl.avif';
-import user_3 from '../assets/avatar-man-2.jpg';
-import user_2 from '../assets/avatar-man.avif';
-import img from '../assets/river.jpg';
+import { GetDialogResponse } from '../entities/dialog/get/model';
 
-import { User } from './user';
-
-export interface ChatMessageAsset {
-  format?: string;
-  name?: string;
-  size?: string | number;
-  url?: string;
-}
-
-export interface ChatMessage {
-  id: string | number;
-  type: 'incoming' | 'outgoing';
-  // Date in ISO-string
-  date: string;
-  text?: string;
-  emoji?: string;
-  assets?: ChatMessageAsset[];
-}
-
-export interface Chat {
-  id: string | number;
-  user: User;
-  messages?: ChatMessage[];
-}
-
-export const chats: Chat[] = [
+export const chats: GetDialogResponse[] = [
   {
-    id: generateUniqKey(),
-    user: {
-      fullName: 'Анастасия Петрова',
-      name: 'Анастасия',
-      online: true,
-      avatar: {
-        url: user_1,
-      },
-    },
+    chat_id: 1,
+    customer: 'Анастасия Петрова',
     messages: [
       {
-        id: generateUniqKey(),
-        type: 'incoming',
-        date: '2023-10-08T08:00:00.000Z',
+        role: 'operator',
         text: 'Привет!',
+        is_used: true,
+        date: '2023-10-08T08:00:00.000Z',
       },
       {
-        id: generateUniqKey(),
-        type: 'incoming',
-        date: '2023-10-08T08:00:00.000Z',
+        role: 'operator',
         text: '💪 Подготовила дизайн-макет проекта Marketplaces. Отправила тебе его для ознакомления.',
-      },
-      {
-        id: generateUniqKey(),
-        type: 'incoming',
+        is_used: true,
         date: '2023-10-08T08:00:00.000Z',
-        assets: [
-          {
-            format: 'pdf',
-            name: 'design_marketplaces.pdf',
-            size: '256 КБ',
-          },
-        ],
       },
       {
-        id: generateUniqKey(),
-        type: 'outgoing',
-        date: '2023-10-09T08:00:00.000Z',
+        role: 'customer',
         text: 'Привет!',
+        is_used: true,
+        date: '2023-10-09T08:00:00.000Z',
       },
       {
-        id: generateUniqKey(),
-        type: 'outgoing',
-        date: '2023-10-09T08:00:00.000Z',
+        role: 'customer',
         text: 'Спасибо! Получила. В ближайшее время дам обратную связь.',
+        is_used: true,
+        date: '2023-10-09T08:00:00.000Z',
       },
       {
-        id: generateUniqKey(),
-        type: 'incoming',
-        date: '2023-10-09T08:00:00.000Z',
+        role: 'operator',
         text: 'Спасибо, подруга! Буду ждать.',
+        is_used: true,
+        date: '2023-10-09T08:00:00.000Z',
       },
     ],
+    summary: null,
+    status: null,
+    createdAt: '2023-10-08T08:00:00.000Z'
   },
   {
-    id: generateUniqKey(),
-    user: {
-      fullName: 'Саят Ахметов',
-      name: 'Саят',
-      online: true,
-      avatar: {
-        url: user_2,
-      },
-    },
+    chat_id: 2,
+    customer: 'Саят Ахметов',
     messages: [
       {
-        id: generateUniqKey(),
-        type: 'incoming',
+        role: 'operator',
         text: 'Здравствуйте!',
+        is_used: true,
         date: '2023-10-09T08:00:00.000Z',
       },
     ],
+    summary: null,
+    status: null,
+    createdAt: '2023-10-09T08:00:00.000Z'
   },
   {
-    id: generateUniqKey(),
-    user: {
-      name: 'Александр',
-      fullName: 'Александр Ишков',
-      online: true,
-      avatar: {
-        url: user_3,
-      },
-    },
+    chat_id: 3,
+    customer: 'Александр Ишков',
     messages: [
       {
-        id: generateUniqKey(),
-        type: 'incoming',
+        role: 'operator',
         text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquam animi cumque distinctio est et facere maiores minima minus obcaecati, odit porro, quam, quod rem repudiandae tempore temporibus ut veniam.',
+        is_used: true,
         date: '2023-10-09T08:00:00.000Z',
       },
     ],
+    summary: null,
+    status: null,
+    createdAt: '2023-10-09T08:00:00.000Z'
   },
   {
-    id: generateUniqKey(),
-    user: {
-      fullName: 'Арсен Насипов',
-      name: 'Арсен',
-    },
+    chat_id: 4,
+    customer: 'Арсен Насипов',
     messages: [
       {
-        id: generateUniqKey(),
-        type: 'incoming',
+        role: 'operator',
         text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquam animi cumque distinctio est et facere maiores minima minus obcaecati, odit porro, quam, quod rem repudiandae tempore temporibus ut veniam.',
+        is_used: true,
         date: '2023-10-08T08:00:00.000Z',
       },
     ],
+    summary: null,
+    status: null,
+    createdAt: '2023-10-08T08:00:00.000Z'
   },
   {
-    id: generateUniqKey(),
-    user: {
-      fullName: 'Bereke Bank',
-      name: 'Bereke Bank',
-      online: true,
-      avatar: {
-        icon: BerekeIcon,
-      },
-    },
+    chat_id: 5,
+    customer: 'Bereke Bank',
     messages: [
       {
-        id: generateUniqKey(),
-        type: 'incoming',
-        date: '2023-10-07T08:00:00.000Z',
-        assets: [{ format: 'jpg', url: img, name: 'image' }],
-      },
-      {
-        id: generateUniqKey(),
-        type: 'incoming',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquam animi cumque distinctio est et facere maiores minima minus obcaecati, odit porro, quam, quod rem repudiandae tempore temporibus ut veniam. ',
+        role: 'operator',
+        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquam animi cumque distinctio est et facere maiores minima minus obcaecati, odit porro, quam, quod rem repudiandae tempore temporibus ut veniam.',
+        is_used: true,
         date: '2023-10-07T08:00:00.000Z',
       },
     ],
+    summary: null,
+    status: null,
+    createdAt: '2023-10-07T08:00:00.000Z'
   },
   {
-    id: generateUniqKey(),
-    user: {
-      fullName: 'Хоуми',
-      name: 'Хоуми',
-    },
+    chat_id: 6,
+    customer: 'Хоуми',
     messages: [
       {
-        id: generateUniqKey(),
-        type: 'incoming',
+        role: 'operator',
         text: 'Погнали на обед?',
+        is_used: true,
         date: '2023-10-07T08:00:00.000Z',
       },
       {
-        id: generateUniqKey(),
-        type: 'outgoing',
+        role: 'customer',
         text: 'Привет! Гоу! Куда пойдем?',
+        is_used: true,
         date: '2023-10-07T08:00:00.000Z',
       },
     ],
+    summary: null,
+    status: null,
+    createdAt: '2023-10-07T08:00:00.000Z'
   },
 ];

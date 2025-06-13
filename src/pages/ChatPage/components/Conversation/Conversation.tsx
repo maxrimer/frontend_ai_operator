@@ -21,14 +21,15 @@ import { cnTypography, Typography } from '@ozen-ui/kit/Typography';
 import { useBoolean } from '@ozen-ui/kit/useBoolean';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
 
-import { user, type Chat, chats } from '../../../../helpers';
+import { GetDialogResponse } from '../../../../entities/dialog/get/model';
+import { chats } from '../../../../helpers';
 import { DualInput } from '../DualInput';
 import { Message } from '../Message';
 
 import s from './Conversation.module.css';
 
 type ConversationProps = {
-  id?: Chat['id'] | null;
+  id?: GetDialogResponse['chat_id'] | null;
   onClickBackButton?: () => void;
 };
 
@@ -42,8 +43,7 @@ export const Conversation: FC<ConversationProps> = ({
   const laseMessageRef = useRef<HTMLDivElement | null>(null);
   const { m } = useBreakpoints();
   const isMobile = !m;
-  const chat = chats.find(({ id }) => id === idProp);
-  const AvatarIcon = chat?.user?.avatar?.icon;
+  const chat = chats.find(({ chat_id }) => chat_id === idProp);
 
   useEffect(() => {
     scrollContainerToElement({
@@ -53,7 +53,7 @@ export const Conversation: FC<ConversationProps> = ({
     });
   }, [chat]);
 
-  const handleSendMessage = (message: string, type: 'customer' | 'support') => {
+  const handleSendMessage = (message: string, type: 'customer' | 'operator') => {
     // Here you would handle sending the message
     console.log(`Sending ${type} message:`, message);
     // You can implement the actual message sending logic here
@@ -85,19 +85,13 @@ export const Conversation: FC<ConversationProps> = ({
           />
         )}
         <Stack align="center" gap="l" style={{ minWidth: 0 }}>
-          <Avatar
-            name={chat?.user.fullName}
-            src={chat?.user.avatar?.url}
-            online={chat?.user.online}
-          >
-            {AvatarIcon && <AvatarIcon />}
-          </Avatar>
+          <Avatar name={chat?.customer} />
           <Stack direction="column" style={{ minWidth: 0 }}>
             <Typography variant="text-m_1" noWrap>
-              {chat?.user.fullName}
+              {chat?.customer}
             </Typography>
             <Typography variant="text-s" color="tertiary" noWrap>
-              {chat?.user.online ? 'В сети' : 'Был(а) в сети 1 час назад'}
+              {chat?.status || 'В сети'}
             </Typography>
           </Stack>
         </Stack>
@@ -158,8 +152,8 @@ export const Conversation: FC<ConversationProps> = ({
             <Message
               {...message}
               ref={laseMessageRef}
-              user={message.type === 'incoming' ? chat.user : user}
-              key={message.id}
+              key={message.date}
+              type={message.role === 'operator' ? 'incoming' : 'outgoing'}
             />
           );
         })}

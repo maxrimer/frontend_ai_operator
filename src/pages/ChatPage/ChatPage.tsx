@@ -1,11 +1,11 @@
 import { useState, useCallback, CSSProperties, useRef, useEffect } from 'react';
 
+import { ExternalLinkIcon } from '@ozen-ui/icons';
+import { Button } from '@ozen-ui/kit/ButtonNext';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
 import { useTimer } from '@ozen-ui/kit/useTimer';
-import { Button } from '@ozen-ui/kit/ButtonNext';
-import { ExternalLinkIcon } from '@ozen-ui/icons';
-import { useCreateNewDialog } from '../../entities/dialog/create/api';
 
+import { useCreateNewDialog } from '../../entities/dialog/create/api';
 import { chats } from '../../helpers';
 
 import s from './ChatPage.module.css';
@@ -66,7 +66,7 @@ export const ChatPage = () => {
   const { m } = useBreakpoints();
   const ref = useRef<HTMLDivElement | null>(null);
   const isMobile = !m;
-  const [chatId, setChatId] = useState<string | number | null>(chats[0].id);
+  const [chatId, setChatId] = useState<number | null>(chats[0].chat_id);
   const { mutate: createNewDialog } = useCreateNewDialog();
 
   const preventFocus = (active: boolean) => {
@@ -81,10 +81,11 @@ export const ChatPage = () => {
     if (isMobile) slide();
   };
 
-  const open = (id: string | number) => {
+  const open = (id: number) => {
     setChatId(id);
     if (isMobile) slide();
   };
+  console.log('chatId', chatId)
 
   const { slide, state, animated } = useAnimation({
     exited: () => setChatId(null),

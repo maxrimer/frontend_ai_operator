@@ -4,6 +4,7 @@ export interface SendMessageRequest {
   chat_id: number;
   role: 'customer' | 'operator' | 'suffler';
   text: string;
+  is_used?: boolean;
 }
 
 export interface SendMessageResponse {

@@ -49,7 +49,7 @@ export const dialogHandlers = [
   }),
 
     // Get all dialogs - Returns DialogListItem[] as per the true API contract
-    http.get(`${baseUrl}/dialog/all`, () => {
+    http.get(`${baseUrl}/dialog/chats`, () => {
       return HttpResponse.json<GetAllDialogsResponse>([
         {
           chat_id: 1,

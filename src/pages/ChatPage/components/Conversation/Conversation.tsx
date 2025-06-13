@@ -30,11 +30,15 @@ import s from './Conversation.module.css';
 type ConversationProps = {
   id?: number | null;
   onClickBackButton?: () => void;
+  operatorMessageValue?: string;
+  onOperatorMessageChange?: (value: string) => void;
 };
 
 export const Conversation: FC<ConversationProps> = ({
   onClickBackButton,
   id: idProp,
+  operatorMessageValue,
+  onOperatorMessageChange,
 }) => {
   const [open, { off, toggle }] = useBoolean();
   const menuAnchorRef = useRef<HTMLButtonElement | null>(null);
@@ -59,7 +63,11 @@ export const Conversation: FC<ConversationProps> = ({
   const handleSendMessage = (message: string, type: 'customer' | 'operator') => {
     // Here you would handle sending the message
     console.log(`Sending ${type} message:`, message);
-    // You can implement the actual message sending logic here
+
+    // Clear the operator message value after sending
+    if (type === 'operator' && onOperatorMessageChange) {
+      onOperatorMessageChange('');
+    }
   };
 
   if (!idProp) {
@@ -179,7 +187,11 @@ export const Conversation: FC<ConversationProps> = ({
         })}
       </Stack>
       <Divider color="secondary" />
-      <DualInput dialogId={idProp} onSendMessage={handleSendMessage} />
+      <DualInput 
+        dialogId={idProp!} 
+        onSendMessage={handleSendMessage} 
+        operatorMessageValue={operatorMessageValue}
+      />
     </Card>
   );
 };

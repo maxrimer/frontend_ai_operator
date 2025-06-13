@@ -64,6 +64,7 @@ export const ChatPage = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const isMobile = !m;
   const [chatId, setChatId] = useState<number | null>(null);
+  const [operatorMessageValue, setOperatorMessageValue] = useState<string>('');
   
   const { data: dialogList = [], isLoading, error } = useGetAllDialogs();
 
@@ -72,6 +73,10 @@ export const ChatPage = () => {
       setChatId(dialogList[0].chat_id);
     }
   }, [dialogList, chatId]);
+
+  const handleEditHint = useCallback((hintText: string) => {
+    setOperatorMessageValue(hintText);
+  }, []);
 
   const preventFocus = (active: boolean) => {
     if (!ref.current) return;
@@ -151,10 +156,15 @@ export const ChatPage = () => {
               isMobile && state === 'exit' && !animated ? 'hidden' : 'visible',
           }}
         >
-          <Conversation id={chatId} onClickBackButton={close} />
+          <Conversation 
+            id={chatId} 
+            onClickBackButton={close} 
+            operatorMessageValue={operatorMessageValue}
+            onOperatorMessageChange={setOperatorMessageValue}
+          />
         </div>
         <div className={s.aiPrompterBlock}>
-          <AIPrompter dialogId={chatId} />
+          <AIPrompter dialogId={chatId} onEditHint={handleEditHint} />
         </div>
       </div>
     </div>

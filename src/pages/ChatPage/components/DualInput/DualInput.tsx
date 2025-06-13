@@ -1,7 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { 
-  AttachmentIcon, 
   SendIcon,
   SupportIcon,
   UserIcon,
@@ -18,13 +17,21 @@ import s from './DualInput.module.css';
 type DualInputProps = {
   dialogId: number;
   onSendMessage?: (message: string, type: 'customer' | 'operator') => void;
+  operatorMessageValue?: string;
 };
 
-export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage }) => {
+export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage, operatorMessageValue }) => {
   const [customerMessage, setCustomerMessage] = useState('');
   const [operatorMessage, setOperatorMessage] = useState('');
 
   const sendMessage = useSendMessage();
+
+  // Update operator message when prop changes
+  useEffect(() => {
+    if (operatorMessageValue !== undefined) {
+      setOperatorMessage(operatorMessageValue);
+    }
+  }, [operatorMessageValue]);
 
   const handleSend = (messageType: 'customer' | 'operator') => {
     const message = messageType === 'customer' ? customerMessage : operatorMessage;
@@ -64,7 +71,6 @@ export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage }) => {
         <Typography variant="text-xs" color="secondary" className={s.inputLabel}>
           Клиент:
         </Typography>
-        <IconButton icon={AttachmentIcon} size="s" />
         <Input 
           placeholder="Сообщение от клиента..."
           value={customerMessage}
@@ -87,7 +93,6 @@ export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage }) => {
         <Typography variant="text-xs" color="secondary" className={s.inputLabel}>
           Оператор:
         </Typography>
-        <IconButton icon={AttachmentIcon} size="s" />
         <Input 
           placeholder="Ответ оператора..."
           value={operatorMessage}

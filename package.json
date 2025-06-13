@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host --mode development",
+    "dev:msw": "VITE_MSW_ENABLED=true vite --host --mode development",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "serve": "pnpm build && pnpm preview",

@@ -1,5 +1,6 @@
 async function initMocks() {
-  if (typeof window !== 'undefined') {
+  // Only initialize MSW if the environment variable is set
+  if (import.meta.env.VITE_MSW_ENABLED === 'true' && typeof window !== 'undefined') {
     const { worker } = await import('./browser');
 
     await worker.start({

@@ -11,7 +11,7 @@ const createDialog = async (data: CreateDialogRequest): Promise<CreateDialogResp
 };
 
 interface CreateNewDialogRequest {
-  customerNumber: string;
+  customer_number: string;
 }
 
 interface CreateNewDialogResponse {
@@ -21,7 +21,11 @@ interface CreateNewDialogResponse {
 }
 
 const createNewDialog = async (data: CreateNewDialogRequest): Promise<CreateNewDialogResponse> => {
-  const response = await axiosInstance.post<CreateNewDialogResponse>('/dialog/create', data);
+  const response = await axiosInstance.post<CreateNewDialogResponse>('/dialog/create', data, {
+    params: {
+      customer_number: data.customer_number,
+    }
+  });
 
   return response.data;
 };

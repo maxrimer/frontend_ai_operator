@@ -6,11 +6,14 @@ import { Typography } from '@ozen-ui/kit/Typography';
 import s from './Confidence.module.css';
 
 type ConfidenceProps = {
-  value: number; // 0-1
+  value: number | null; // 0-1 or null
   size?: 'xs' | 's' | 'm';
 };
 
 export const Confidence: FC<ConfidenceProps> = ({ value, size = 's' }) => {
+  // Return null if value is null
+  if (value === null) return null;
+  
   // Ensure value is between 0 and 1, then convert to percentage
   const normalizedValue = Math.max(0, Math.min(1, value));
   const percentageValue = Math.round(normalizedValue * 100);

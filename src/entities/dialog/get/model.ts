@@ -4,7 +4,8 @@ export interface DialogMessage {
   is_used: boolean;
   date: string;
   source: string | null;
-  confidence: number;
+  confidence: number | null;
+  dialog_id: number;
 }
 
 export interface GetDialogResponse {

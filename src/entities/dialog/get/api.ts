@@ -14,5 +14,6 @@ export const useGetDialog = (id: number) => {
   return useQuery({
     queryKey: ['dialog', id],
     queryFn: () => getDialog(id),
+    enabled: !!id,
   });
 }; 

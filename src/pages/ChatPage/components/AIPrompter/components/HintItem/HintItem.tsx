@@ -6,7 +6,7 @@ import { Stack } from '@ozen-ui/kit/Stack';
 import { Typography } from '@ozen-ui/kit/Typography';
 import clsx from 'clsx';
 
-import { useSendMessage } from '../../../../../../entities/dialog';
+import { useAddHint } from '../../../../../../entities/dialog';
 import { DialogMessage } from '../../../../../../entities/dialog/get/model';
 import s from '../../AIPrompter.module.css';
 import { Confidence } from '../Confidence';
@@ -20,10 +20,11 @@ type HintItemProps = {
 };
 
 export const HintItem: FC<HintItemProps> = ({ hint, index, totalHints, dialogId, onEditHint }) => {
-  const sendMessage = useSendMessage();
+  const addHint = useAddHint();
 
   // Helper function to determine hint state
   const getHintState = (hintIndex: number, totalHints: number, isUsed: boolean) => {
+    if (isUsed) return 'used';
     const isLatest = hintIndex === totalHints - 1;
     
     if (isLatest) {
@@ -42,13 +43,11 @@ export const HintItem: FC<HintItemProps> = ({ hint, index, totalHints, dialogId,
   };
 
   const hintState = getHintState(index, totalHints, hint.is_used);
-  const { emoji, description } = getConfidenceDisplay(hint.confidence);
 
   const handleAccept = () => {
-    sendMessage.mutate({
+    addHint.mutate({
       chat_id: dialogId,
-      role: 'operator',
-      text: hint.text,
+      dialog_id: hint.dialog_id,
       is_used: true,
     });
   };
@@ -83,27 +82,30 @@ export const HintItem: FC<HintItemProps> = ({ hint, index, totalHints, dialogId,
             {hint.text}
           </Typography>
           
-          {/* Confidence display below text */}
-          <Stack direction="row" align="center" gap="xs">
-            <Typography variant="text-xs" style={{ fontSize: '14px' }}>
-              {emoji}
-            </Typography>
-            <Confidence 
-              value={hint.confidence} 
-              size="xs"
-            />
-            <Typography 
-              variant="text-xs" 
-              color="tertiary"
-              style={{ 
-                opacity: hintState === 'unused' ? 0.5 : 0.7,
-                fontSize: '11px'
-              }}
-            >
-              {description}
-            </Typography>
-          </Stack>
+          {/* Confidence display below text - only show if confidence is not null */}
+          {hint.confidence !== null && (
+            <Stack direction="row" align="center" gap="xs">
+              <Typography variant="text-xs" style={{ fontSize: '14px' }}>
+                {getConfidenceDisplay(hint.confidence).emoji}
+              </Typography>
+              <Confidence 
+                value={hint.confidence} 
+                size="xs"
+              />
+              <Typography 
+                variant="text-xs" 
+                color="tertiary"
+                style={{ 
+                  opacity: hintState === 'unused' ? 0.5 : 0.7,
+                  fontSize: '11px'
+                }}
+              >
+                {getConfidenceDisplay(hint.confidence).description}
+              </Typography>
+            </Stack>
+          )}
           
+          {/* Source link - only show if source is not null */}
           {hint.source && (
             <Link 
               href={hint.source} 
@@ -140,7 +142,7 @@ export const HintItem: FC<HintItemProps> = ({ hint, index, totalHints, dialogId,
                 size="xs"
                 variant="contained"
                 onClick={handleAccept}
-                disabled={sendMessage.isPending}
+                disabled={addHint.isPending}
                 fullWidth
               >
                 Принять

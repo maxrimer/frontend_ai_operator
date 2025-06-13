@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { appConfig } from '../../configs/app.config';
 import { GetAllDialogsResponse } from '../../entities/dialog/all/model';
 import { GetDialogResponse } from '../../entities/dialog/get/model';
+import { AddHintRequest, AddHintResponse } from '../../entities/dialog/hint/model';
 import { SendMessageRequest, SendMessageResponse } from '../../entities/dialog/send/model';
 
 const baseUrl = appConfig.apiUrl;
@@ -23,6 +24,7 @@ export const dialogHandlers = [
           date: new Date(Date.now() - 60000).toISOString(),
           source: null,
           confidence: 0,
+          dialog_id: 0,
         },
         {
           role: body.role,
@@ -31,6 +33,7 @@ export const dialogHandlers = [
           date: new Date().toISOString(),
           source: null,
           confidence: 0,
+          dialog_id: 0,
         },
       ],
       status: 'active',
@@ -48,8 +51,19 @@ export const dialogHandlers = [
       chat_id: Math.floor(Math.random() * 1000) + 1,
       messages: [],
       status: 'active',
-      customerNumber: body.customerNumber,
+      customer_number: body.customerNumber,
     });
+  }),
+
+  // Add hint (accept hint)
+  http.post(`${baseUrl}/dialog/hint`, async ({ request }) => {
+    const body = await request.json() as AddHintRequest;
+    
+    console.log(`Hint accepted - Chat ID: ${body.chat_id}, Hint Dialog ID: ${body.dialog_id}, Is Used: ${body.is_used}`);
+    
+    // In a real implementation, this would mark the hint as used in the database
+    // For mock purposes, we just return success
+    return HttpResponse.json<AddHintResponse>(true);
   }),
 
     // Get all dialogs - Returns DialogListItem[] as per the true API contract
@@ -92,6 +106,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:00:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'operator' as const,
@@ -100,6 +115,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:01:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'suffler' as const,
@@ -108,6 +124,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:01:30Z').toISOString(),
             source: 'https://support.example.com/internet-troubleshooting',
             confidence: 0.85,
+            dialog_id: 101,
           },
           {
             role: 'customer' as const,
@@ -116,6 +133,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:02:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'operator' as const,
@@ -124,6 +142,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:03:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'customer' as const,
@@ -132,6 +151,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:05:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'operator' as const,
@@ -140,6 +160,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:06:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'suffler' as const,
@@ -148,6 +169,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T09:07:00Z').toISOString(),
             source: 'https://support.example.com/cable-diagnostics',
             confidence: 0.72,
+            dialog_id: 102,
           },
         ],
         summary: 'Проблемы с интернетом - низкая скорость',
@@ -165,6 +187,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:00:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'operator' as const,
@@ -173,6 +196,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:01:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'suffler' as const,
@@ -181,6 +205,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:01:30Z').toISOString(),
             source: 'https://support.example.com/channel-packages',
             confidence: 0.90,
+            dialog_id: 201,
           },
           {
             role: 'customer' as const,
@@ -189,6 +214,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:02:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'operator' as const,
@@ -197,6 +223,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:03:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'customer' as const,
@@ -205,6 +232,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:04:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'suffler' as const,
@@ -213,6 +241,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:04:30Z').toISOString(),
             source: 'https://support.example.com/current-promotions',
             confidence: 0.95,
+            dialog_id: 202,
           },
           {
             role: 'operator' as const,
@@ -221,14 +250,16 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:05:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'suffler' as const,
             text: 'Можно предложить дополнительные услуги: антивирус, родительский контроль',
             is_used: false,
             date: new Date('2024-01-15T10:06:00Z').toISOString(),
-            source: 'https://support.example.com/additional-services',
-            confidence: 0.78,
+            source: null,
+            confidence: null,
+            dialog_id: 203,
           },
           {
             role: 'suffler' as const,
@@ -237,6 +268,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T10:07:00Z').toISOString(),
             source: 'https://support.example.com/loyalty-discounts',
             confidence: 0.68,
+            dialog_id: 204,
           },
         ],
         summary: 'Подключение пакета спортивных каналов',
@@ -254,6 +286,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T11:00:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'operator' as const,
@@ -262,6 +295,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T11:01:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'customer' as const,
@@ -270,6 +304,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T11:02:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'suffler' as const,
@@ -278,6 +313,7 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T11:02:30Z').toISOString(),
             source: 'https://support.example.com/service-outages',
             confidence: 0.82,
+            dialog_id: 301,
           },
           {
             role: 'operator' as const,
@@ -286,14 +322,16 @@ export const dialogHandlers = [
             date: new Date('2024-01-15T11:04:00Z').toISOString(),
             source: null,
             confidence: 0,
+            dialog_id: 0,
           },
           {
             role: 'suffler' as const,
             text: 'Рекомендуется уведомить клиента о возможной компенсации за время простоя',
             is_used: false,
             date: new Date('2024-01-15T11:05:00Z').toISOString(),
-            source: 'https://support.example.com/service-compensation',
-            confidence: 0.65,
+            source: null,
+            confidence: null,
+            dialog_id: 302,
           },
         ],
         summary: 'Проблемы с цифровым ТВ - нет сигнала',
@@ -320,6 +358,7 @@ export const dialogHandlers = [
           date: new Date().toISOString(),
           source: null,
           confidence: 0,
+          dialog_id: 0,
         },
         {
           role: 'operator' as const,
@@ -328,6 +367,7 @@ export const dialogHandlers = [
           date: new Date().toISOString(),
           source: null,
           confidence: 0,
+          dialog_id: 0,
         },
       ],
       summary: `Dialog ${dialogId}`,

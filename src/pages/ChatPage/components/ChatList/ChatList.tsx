@@ -47,7 +47,7 @@ export const ChatList: FC<ChatListProps> = ({
 
   const handleCreateDialog = (customerNumber: string) => {
     // Call the endpoint with customer number
-    createNewDialog({ customerNumber });
+    createNewDialog({ customer_number: customerNumber });
     setIsDialogOpen(false);
   };
 

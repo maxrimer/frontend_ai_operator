@@ -11,20 +11,33 @@ import { Input } from '@ozen-ui/kit/Input';
 import { Stack } from '@ozen-ui/kit/Stack';
 import { Typography } from '@ozen-ui/kit/Typography';
 
+import { useSendMessage } from '../../../../entities/dialog';
+
 import s from './DualInput.module.css';
 
 type DualInputProps = {
+  dialogId: number;
   onSendMessage?: (message: string, type: 'customer' | 'operator') => void;
 };
 
-export const DualInput: FC<DualInputProps> = ({ onSendMessage }) => {
+export const DualInput: FC<DualInputProps> = ({ dialogId, onSendMessage }) => {
   const [customerMessage, setCustomerMessage] = useState('');
   const [operatorMessage, setOperatorMessage] = useState('');
+
+  const sendMessage = useSendMessage();
 
   const handleSend = (messageType: 'customer' | 'operator') => {
     const message = messageType === 'customer' ? customerMessage : operatorMessage;
 
     if (message.trim()) {
+      // Use the sendMessage directly
+      sendMessage.mutate({
+        chat_id: dialogId,
+        role: messageType,
+        text: message.trim(),
+      });
+
+      // Keep the callback for backward compatibility
       onSendMessage?.(message.trim(), messageType);
 
       if (messageType === 'customer') {
@@ -42,6 +55,8 @@ export const DualInput: FC<DualInputProps> = ({ onSendMessage }) => {
     }
   };
 
+  const isLoading = sendMessage.isPending;
+
   return (
     <div className={s.dualInput}>
       {/* Customer Input */}
@@ -56,13 +71,14 @@ export const DualInput: FC<DualInputProps> = ({ onSendMessage }) => {
           onChange={(e) => setCustomerMessage(e.target.value)}
           onKeyPress={(e) => handleKeyPress(e, 'customer')}
           renderLeft={UserIcon}
+          disabled={isLoading}
           fullWidth
         />
         <IconButton 
           icon={SendIcon} 
           size="s"
           onClick={() => handleSend('customer')}
-          disabled={!customerMessage.trim()}
+          disabled={!customerMessage.trim() || isLoading}
         />
       </Stack>
 
@@ -78,13 +94,14 @@ export const DualInput: FC<DualInputProps> = ({ onSendMessage }) => {
           onChange={(e) => setOperatorMessage(e.target.value)}
           onKeyPress={(e) => handleKeyPress(e, 'operator')}
           renderLeft={SupportIcon}
+          disabled={isLoading}
           fullWidth
         />
         <IconButton 
           icon={SendIcon} 
           size="s"
           onClick={() => handleSend('operator')}
-          disabled={!operatorMessage.trim()}
+          disabled={!operatorMessage.trim() || isLoading}
         />
       </Stack>
     </div>

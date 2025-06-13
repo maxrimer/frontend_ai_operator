@@ -67,7 +67,7 @@
 .aiMessage.ai.active {
   background-color: var(--color-bg-success-light);
   border: 2px solid var(--color-border-success);
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+  box-shadow: 0 0 8px rgb(34 197 94 / 20%);
   animation: glow 2s ease-in-out infinite alternate;
 }
 
@@ -88,8 +88,8 @@
   display: flex;
   align-items: center;
   font-size: 14px;
-  min-width: 20px;
-  margin-top: 2px;
+  min-inline-size: 20px;
+  margin-block-start: 2px;
 }
 
 .aiMessage.loading {
@@ -114,11 +114,11 @@
 
 @keyframes glow {
   0% {
-    box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+    box-shadow: 0 0 8px rgb(34 197 94 / 20%);
   }
   
   100% {
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 0 12px rgb(34 197 94 / 40%);
   }
 }
 

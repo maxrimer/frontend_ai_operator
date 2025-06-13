@@ -2,17 +2,37 @@ import { http, HttpResponse } from 'msw';
 
 import { appConfig } from '../../configs/app.config';
 import { GetAllDialogsResponse } from '../../entities/dialog/all/model';
-import { CreateDialogResponse } from '../../entities/dialog/create/model';
 import { GetDialogResponse } from '../../entities/dialog/get/model';
+import { SendMessageRequest, SendMessageResponse } from '../../entities/dialog/send/model';
 
 const baseUrl = appConfig.apiUrl;
 
 export const dialogHandlers = [
-  // Create dialog
-  http.post(`${baseUrl}/dialog`, () => {
-    return HttpResponse.json<CreateDialogResponse>({
-      id: 1,
-      hint: 'Sample hint',
+  // Send message to dialog
+  http.post(`${baseUrl}/dialog`, async ({ request }) => {
+    const body = await request.json() as SendMessageRequest;
+    
+    return HttpResponse.json<SendMessageResponse>({
+      chat_id: body.chat_id,
+      customer_number: `+7-777-123-45-67`,
+      messages: [
+        {
+          role: 'customer',
+          text: 'Предыдущее сообщение клиента',
+          is_used: true,
+          date: new Date(Date.now() - 60000).toISOString(),
+        },
+        {
+          role: body.role,
+          text: body.text,
+          is_used: true,
+          date: new Date().toISOString(),
+        },
+      ],
+      status: 'active',
+      created_at: new Date(Date.now() - 3600000).toISOString(),
+      updated_at: new Date().toISOString(),
+      summary: `Dialog updated with ${body.role} message`,
     });
   }),
 

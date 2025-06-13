@@ -22,7 +22,7 @@ export const Message = forwardRef<HTMLDivElement, DialogMessage & { type: 'incom
         align="center"
         fullWidth
       >
-        <Avatar name={type === 'incoming' ? 'Оператор' : 'Клиент'} size="s" />
+        <Avatar name={type === 'incoming' ? 'Клиент' : 'Оператор'} size="s" />
         <Stack
           gap="xs"
           direction="column"

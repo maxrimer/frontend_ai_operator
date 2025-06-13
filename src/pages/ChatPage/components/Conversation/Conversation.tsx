@@ -170,13 +170,13 @@ export const Conversation: FC<ConversationProps> = ({
               {...message}
               ref={laseMessageRef}
               key={message.date}
-              type={message.role === 'operator' ? 'incoming' : 'outgoing'}
+              type={message.role === 'customer' ? 'incoming' : 'outgoing'}
             />
           );
         })}
       </Stack>
       <Divider color="secondary" />
-      <DualInput onSendMessage={handleSendMessage} />
+      <DualInput dialogId={idProp} onSendMessage={handleSendMessage} />
     </Card>
   );
 };

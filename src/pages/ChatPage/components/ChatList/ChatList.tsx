@@ -53,9 +53,10 @@ export const ChatList: FC<ChatListProps> = ({
 
   return (
     <Card borderWidth="none" className={s.chatList}>
-      <div className={s.chatListHeader}>
+      <Stack gap="s" direction='column' className={s.chatListHeader}>
         <Input placeholder="Поиск чатов" renderLeft={ChatsIcon} fullWidth />
         <Button
+            fullWidth
             onClick={() => setIsDialogOpen(true)}
           >
             <Stack direction="rowReverse" gap="s" align="center" justify="center">
@@ -63,7 +64,7 @@ export const ChatList: FC<ChatListProps> = ({
               Создать новую симуляцию
             </Stack>
           </Button>
-      </div>
+      </Stack>
       
       <Divider color="secondary" />
       <div className={s.chatListBody}>

@@ -6,10 +6,10 @@ export interface DialogMessage {
 }
 
 export interface GetDialogResponse {
-  id: number;
+  chat_id: number;
   customer: string;
-  dialog: DialogMessage[];
+  messages: DialogMessage[];
   summary: string | null;
   status: string | null;
   createdAt: string;
-} 
+}

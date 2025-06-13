@@ -2,6 +2,9 @@ import { useState, useCallback, CSSProperties, useRef, useEffect } from 'react';
 
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
 import { useTimer } from '@ozen-ui/kit/useTimer';
+import { Button } from '@ozen-ui/kit/ButtonNext';
+import { ExternalLinkIcon } from '@ozen-ui/icons';
+import { useCreateNewDialog } from '../../entities/dialog/create/api';
 
 import { chats } from '../../helpers';
 
@@ -64,6 +67,7 @@ export const ChatPage = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const isMobile = !m;
   const [chatId, setChatId] = useState<string | number | null>(chats[0].id);
+  const { mutate: createNewDialog } = useCreateNewDialog();
 
   const preventFocus = (active: boolean) => {
     const focusableElements = getFocusableElements(ref.current!);
@@ -110,6 +114,12 @@ export const ChatPage = () => {
               isMobile && state === 'enter' && !animated ? 'hidden' : 'visible',
           }}
         >
+          <Button
+            onClick={() => createNewDialog()}
+          >
+            <ExternalLinkIcon />
+            Create New Dialog
+          </Button>
           <ChatList id={chatId} onClickChatListItem={open} />
         </div>
         <div

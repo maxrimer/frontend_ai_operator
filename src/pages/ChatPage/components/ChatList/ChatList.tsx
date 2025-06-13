@@ -69,7 +69,7 @@ export const ChatList: FC<ChatListProps> = ({
       <Divider color="secondary" />
       <div className={s.chatListBody}>
         <List disablePadding>
-          {dialogList.map(({ chat_id, lastMessage, status, summary }) => {
+          {dialogList.map(({ chat_id, last_message: lastMessage, status, summary }) => {
             return (
               <ListItemButton
                 key={chat_id}

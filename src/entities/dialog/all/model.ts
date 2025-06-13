@@ -1,6 +1,6 @@
 export interface DialogListItem {
   chat_id: number;
-  lastMessage: string;
+  last_message: string;
   status: string;
   summary: string;
 }

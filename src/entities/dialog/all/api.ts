@@ -5,7 +5,7 @@ import axiosInstance from '../../../configs/axios.config';
 import { GetAllDialogsResponse } from './model';
 
 const getAllDialogs = async (): Promise<GetAllDialogsResponse> => {
-  const response = await axiosInstance.get<GetAllDialogsResponse>('/dialog/all');
+  const response = await axiosInstance.get<GetAllDialogsResponse>('/dialog/chats');
 
   return response.data;
 };

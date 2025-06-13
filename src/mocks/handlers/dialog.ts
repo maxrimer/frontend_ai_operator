@@ -49,23 +49,23 @@ export const dialogHandlers = [
   }),
 
     // Get all dialogs - Returns DialogListItem[] as per the true API contract
-    http.get(`${baseUrl}/dialog/all`, () => {
+    http.get(`${baseUrl}/dialog/chats`, () => {
       return HttpResponse.json<GetAllDialogsResponse>([
         {
           chat_id: 1,
-          lastMessage: 'Привет! Все хорошо, спасибо!',
+          last_message: 'Привет! Все хорошо, спасибо!',
           status: 'active',
           summary: 'Приветствие и общие вопросы',
         },
         {
           chat_id: 2,
-          lastMessage: 'Здравствуйте! Слушаю вас.',
+          last_message: 'Здравствуйте! Слушаю вас.',
           status: 'active',
           summary: 'Вопрос по услуге',
         },
         {
           chat_id: 3,
-          lastMessage: 'Добро пожаловать в службу поддержки!',
+          last_message: 'Добро пожаловать в службу поддержки!',
           status: 'waiting',
           summary: 'Новый диалог',
         },

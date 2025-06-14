@@ -15,6 +15,7 @@ import { IconButton } from '@ozen-ui/kit/IconButtonNext';
 import { Menu, MenuItem, MenuItemIcon, MenuItemText } from '@ozen-ui/kit/Menu';
 import { spacing } from '@ozen-ui/kit/MixSpacing';
 import { Stack } from '@ozen-ui/kit/Stack';
+import { Textarea } from '@ozen-ui/kit/Textarea';
 import { cnTypography, Typography } from '@ozen-ui/kit/Typography';
 import { useBoolean } from '@ozen-ui/kit/useBoolean';
 import { useBreakpoints } from '@ozen-ui/kit/useBreakpoints';
@@ -39,7 +40,7 @@ type ConversationProps = {
 type CloseDialogModalProps = {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (feedback?: string) => void;
   loading?: boolean;
 };
 
@@ -49,29 +50,53 @@ const CloseDialogModal: FC<CloseDialogModalProps> = ({
   onConfirm,
   loading = false,
 }) => {
+  const [feedback, setFeedback] = useState('');
+
+  const handleSubmit = () => {
+    onConfirm(feedback.trim() || undefined);
+    setFeedback('');
+  };
+
+  const handleClose = () => {
+    setFeedback('');
+    onClose();
+  };
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogHeader>
         <DialogTitle>Закрыть диалог</DialogTitle>
         <DialogSubtitle>Вы уверены, что хотите закрыть этот диалог?</DialogSubtitle>
       </DialogHeader>
       
       <DialogBody>
-        <Typography>
-          После закрытия диалога вы не сможете продолжить переписку с клиентом. 
-          Это действие нельзя будет отменить.
-        </Typography>
+        <Stack gap="m" direction="column">
+          <Typography>
+            После закрытия диалога вы не сможете продолжить переписку с клиентом. 
+            Это действие нельзя будет отменить.
+          </Typography>
+          <Typography variant="text-s" color="secondary">
+            Оставьте отзыв о диалоге (необязательно):
+          </Typography>
+          <Textarea
+            placeholder="Введите ваш отзыв о диалоге с клиентом..."
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            rows={3}
+            disabled={loading}
+          />
+        </Stack>
       </DialogBody>
       
       <DialogFooter>
         <Stack direction="row" gap="s">
-          <Button color="secondary" onClick={onClose} disabled={loading}>
+          <Button color="secondary" onClick={handleClose} disabled={loading}>
             Отмена
           </Button>
           <Button 
             variant="contained" 
             color="error"
-            onClick={onConfirm}
+            onClick={handleSubmit}
             loading={loading}
           >
             Закрыть диалог
@@ -128,8 +153,15 @@ export const Conversation: FC<ConversationProps> = ({
     off(); // Close menu
   };
 
-  const handleConfirmCloseDialog = () => {
+
+  const handleConfirmCloseDialog = (feedback?: string) => {
     if (!idProp) return;
+    
+    // Log feedback if provided
+    if (feedback) {
+      console.log('Operator feedback on dialog close:', feedback);
+      // TODO: Send feedback to API along with dialog close
+    }
     
     closeDialogMutation.mutate(idProp, {
       onSuccess: () => {

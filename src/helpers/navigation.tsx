@@ -7,7 +7,6 @@ import {
   QuestionCircleOutlineIcon,
   FlameIcon,
   BrOzenIcon,
-  CalendarIcon,
   ParagraphIcon,
   WidgetIcon,
 } from '@ozen-ui/icons';
@@ -22,7 +21,6 @@ import {
   LiveCoding,
   BlogPostDetailsPage,
   BlogWritePostPage,
-  CalendarPage,
   BlogPage,
   MicrofrontendsPage,
 } from '../pages';
@@ -129,13 +127,6 @@ const routes: Record<string, App> = {
     icon: CartHandIcon,
     component: () => <OrdersPage />,
   },
-  calendar: {
-    title: 'Календарь',
-    link: '/calendar',
-    path: '/calendar',
-    icon: CalendarIcon,
-    component: () => <CalendarPage />,
-  },
   'help-center': {
     title: 'Центр помощи',
     link: '/help-center',
@@ -182,6 +173,5 @@ export const navigation: Navigation = {
     'main',
     'chat',
     'orders',
-    'calendar',
   ],
 };

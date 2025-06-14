@@ -246,7 +246,7 @@ export const Conversation: FC<ConversationProps> = ({
               {...message}
               ref={laseMessageRef}
               key={message.date}
-              type={message.role === 'client' ? 'incoming' : 'outgoing'}
+              type={message.role === 'client' || message.role === 'customer' ? 'incoming' : 'outgoing'}
             />
           );
         })}

@@ -116,7 +116,7 @@ export const HintItem: FC<HintItemProps> = ({ hint, index, totalHints, dialogId,
                 opacity: hintState === 'unused' ? 0.6 : 0.8 
               }}
             >
-              📄 {hint.source_name || 'Источник документации'}
+              📄 Источник документации {hint.source_name}
             </Link>
           )}
           

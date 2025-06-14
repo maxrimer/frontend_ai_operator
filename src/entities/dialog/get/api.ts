@@ -15,5 +15,9 @@ export const useGetDialog = (id: number) => {
     queryKey: ['dialog', id],
     queryFn: () => getDialog(id),
     enabled: !!id,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
   });
 }; 

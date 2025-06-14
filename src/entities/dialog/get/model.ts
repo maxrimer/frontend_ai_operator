@@ -4,6 +4,7 @@ export interface DialogMessage {
   is_used: boolean;
   date: string;
   source: string | null;
+  source_name: string | null;
   confidence: number | null;
   dialog_id: number;
 }

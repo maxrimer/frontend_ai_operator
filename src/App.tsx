@@ -3,11 +3,9 @@ import { Divider } from '@ozen-ui/kit/Divider';
 
 import { AppProvider } from './AppContext.tsx';
 import {
-  Profile,
   AppBar,
   AppBarHeader,
   AppBarBody,
-  AppBarFooter,
   AppBarHeaderTitle,
   AppBarHeaderLogo,
   Navigation,
@@ -34,9 +32,6 @@ function App() {
             <Navigation />
           </AppBarBody>
           <Divider />
-          <AppBarFooter>
-            <Profile />
-          </AppBarFooter>
         </AppBar>
         <Content />
       </AppBarProvider>

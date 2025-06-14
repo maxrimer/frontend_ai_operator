@@ -4,7 +4,6 @@ import {
   DarkIcon,
   FlagKzIcon,
   FlagRuIcon,
-  FlagUsIcon,
   LightIcon,
 } from '@ozen-ui/icons';
 import { FormTitle } from '@ozen-ui/kit/FormTitle';
@@ -89,7 +88,7 @@ export const Settings = () => {
         </Stack>
       </Stack>
       <Stack direction="column">
-        <FormTitle>Локализация компонентов</FormTitle>
+        <FormTitle>Локализация</FormTitle>
         <Stack direction="column" gap="m">
           <Segment value={settings.locale} onChange={changeLocale} fullWidth>
             <SegmentItem icon={() => <FlagRuIcon width={24} />} value="ru">
@@ -97,9 +96,6 @@ export const Settings = () => {
             </SegmentItem>
             <SegmentItem icon={() => <FlagKzIcon width={24} />} value="kz">
               Қаз
-            </SegmentItem>
-            <SegmentItem icon={() => <FlagUsIcon width={24} />} value="en">
-              Eng
             </SegmentItem>
           </Segment>
         </Stack>

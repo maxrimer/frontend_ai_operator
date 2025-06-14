@@ -54,12 +54,13 @@ export const ChatList: FC<ChatListProps> = ({
 
     const searchLower = searchTerm.toLowerCase();
 
-    return dialogList.filter(({ chat_id, last_message, summary }) => {
+    return dialogList.filter(({ chat_id, last_message, summary, customer_number }) => {
       const summaryMatch = summary?.toLowerCase().includes(searchLower);
       const messageMatch = last_message?.toLowerCase().includes(searchLower);
       const idMatch = chat_id.toString().includes(searchTerm);
+      const customerNumberMatch = (customer_number || '').toLowerCase().includes(searchLower);
       
-      return summaryMatch || messageMatch || idMatch;
+      return summaryMatch || messageMatch || idMatch || customerNumberMatch;
     });
   }, [dialogList, searchTerm]);
 
@@ -93,7 +94,7 @@ export const ChatList: FC<ChatListProps> = ({
       <Divider color="secondary" />
       <div className={s.chatListBody}>
         <List disablePadding>
-          {filteredDialogList.map(({ chat_id, last_message: lastMessage, status, summary }) => {
+          {filteredDialogList.map(({ chat_id, last_message: lastMessage, status, customer_number }) => {
             return (
               <ListItemButton
                 key={chat_id}
@@ -107,7 +108,7 @@ export const ChatList: FC<ChatListProps> = ({
                   <Avatar name={`Chat ${chat_id}`} />
                 </ListItemIcon>
                 <ListItemText
-                  primary={summary || `Dialog ${chat_id}`}
+                  primary={customer_number || `Dialog ${chat_id}`}
                   secondary={lastMessage}
                   primaryTypographyProps={{
                     variant: 'text-m_1',

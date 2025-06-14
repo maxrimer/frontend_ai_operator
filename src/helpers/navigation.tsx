@@ -2,7 +2,6 @@ import { FC, ReactElement } from 'react';
 
 import {
   ChatMenuIcon,
-  DashboardIcon,
   CartHandIcon,
   QuestionCircleOutlineIcon,
   FlameIcon,
@@ -13,7 +12,6 @@ import {
 import { type ContainerBaseProps } from '@ozen-ui/kit/Container';
 
 import {
-  MainPage,
   ChatPage,
   OrdersPage,
   HelpCenterPage,
@@ -105,20 +103,12 @@ const routes: Record<string, App> = {
     containerProps: { maxWidth: 'l' },
     component: () => <ButtonPage />,
   },
-  main: {
-    title: 'Главная',
+  chat: {
+    title: 'Беседы',
     link: '/',
     path: '/',
-    icon: DashboardIcon,
-    component: () => <MainPage />,
-  },
-  chat: {
-    title: 'Чат',
-    link: '/chat',
-    path: '/chat',
     icon: ChatMenuIcon,
     component: () => <ChatPage />,
-    count: 3,
   },
   orders: {
     title: 'Список бесед',
@@ -170,7 +160,6 @@ export type Navigation = {
 export const navigation: Navigation = {
   routes,
   apps: [
-    'main',
     'chat',
     'orders',
   ],

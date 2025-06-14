@@ -36,14 +36,13 @@ export const CreateDialogModal: FC<CreateDialogModalProps> = ({
     <Dialog open={open} onClose={handleClose}>
       <DialogHeader>
         <DialogTitle>Создать новую симуляцию</DialogTitle>
-        <DialogSubtitle>Введите номер клиента для создания новой симуляции</DialogSubtitle>
+        <DialogSubtitle>Введите номер клиента или call_id для создания новой симуляции</DialogSubtitle>
       </DialogHeader>
       
       <DialogBody>
         <Stack gap="m" fullWidth>
           <Input
-            label="Номер клиента"
-            placeholder="Введите номер клиента"
+            label="Номер клиента или call_id"
             value={customerNumber}
             onChange={(e) => setCustomerNumber(e.target.value)}
             fullWidth

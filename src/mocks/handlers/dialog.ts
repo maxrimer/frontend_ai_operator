@@ -76,18 +76,21 @@ export const dialogHandlers = [
           last_message: 'Привет! Все хорошо, спасибо!',
           status: 'active',
           summary: 'Приветствие и общие вопросы',
+          customer_number: '+7-777-123-45-67',
         },
         {
           chat_id: 2,
           last_message: 'Здравствуйте! Слушаю вас.',
           status: 'active',
           summary: 'Вопрос по услуге',
+          customer_number: '+7-777-123-45-67',
         },
         {
           chat_id: 3,
           last_message: 'Добро пожаловать в службу поддержки!',
           status: 'waiting',
           summary: 'Новый диалог',
+          customer_number: '+7-777-123-45-67',
         },
       ]);
     }),

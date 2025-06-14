@@ -16,7 +16,7 @@ import s from './DualInput.module.css';
 
 type DualInputProps = {
   dialogId: number;
-  onSendMessage?: (message: string, type: 'customer' | 'operator') => void;
+  onSendMessage?: (message: string, type: 'client' | 'operator') => void;
   operatorMessageValue?: string;
   disabled?: boolean;
 };
@@ -39,23 +39,23 @@ export const DualInput: FC<DualInputProps> = ({
     }
   }, [operatorMessageValue]);
 
-  const handleSend = (messageType: 'customer' | 'operator') => {
+  const handleSend = (messageType: 'client' | 'operator') => {
     if (disabled) return;
     
-    const message = messageType === 'customer' ? customerMessage : operatorMessage;
+    const message = messageType === 'client' ? customerMessage : operatorMessage;
 
     if (message.trim()) {
       // Use the sendMessage directly
-      sendMessage.mutate({
+      sendMessage.mutate([{
         chat_id: dialogId,
         role: messageType,
         text: message.trim(),
-      });
+      }]);
 
       // Keep the callback for backward compatibility
       onSendMessage?.(message.trim(), messageType);
 
-      if (messageType === 'customer') {
+      if (messageType === 'client') {
         setCustomerMessage('');
       } else {
         setOperatorMessage('');
@@ -63,7 +63,7 @@ export const DualInput: FC<DualInputProps> = ({
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent, messageType: 'customer' | 'operator') => {
+  const handleKeyPress = (e: React.KeyboardEvent, messageType: 'client' | 'operator') => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend(messageType);
@@ -84,7 +84,7 @@ export const DualInput: FC<DualInputProps> = ({
           placeholder={disabled ? "Диалог закрыт" : "Сообщение от клиента..."}
           value={customerMessage}
           onChange={(e) => setCustomerMessage(e.target.value)}
-          onKeyPress={(e) => handleKeyPress(e, 'customer')}
+          onKeyPress={(e) => handleKeyPress(e, 'client')}
           renderLeft={UserIcon}
           disabled={isInputDisabled}
           fullWidth
@@ -92,7 +92,7 @@ export const DualInput: FC<DualInputProps> = ({
         <IconButton 
           icon={SendIcon} 
           size="s"
-          onClick={() => handleSend('customer')}
+          onClick={() => handleSend('client')}
           disabled={!customerMessage.trim() || isInputDisabled}
         />
       </Stack>

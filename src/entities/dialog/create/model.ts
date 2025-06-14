@@ -1,7 +1,7 @@
 export interface CreateDialogRequest {
   id: number;
   text: string;
-  role: 'customer' | 'operator';
+  role: 'client' | 'operator';
 }
 
 export interface CreateDialogResponse {

@@ -18,7 +18,7 @@ export const dialogHandlers = [
       customer_number: `+7-777-123-45-67`,
       messages: [
         {
-          role: 'customer',
+          role: 'client',
           text: 'Предыдущее сообщение клиента',
           is_used: true,
           date: new Date(Date.now() - 60000).toISOString(),
@@ -100,7 +100,7 @@ export const dialogHandlers = [
         customer: 'Анна Петрова',
         messages: [
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Здравствуйте! У меня проблема с интернетом, очень медленно работает.',
             is_used: true,
             date: new Date('2024-01-15T09:00:00Z').toISOString(),
@@ -127,7 +127,7 @@ export const dialogHandlers = [
             dialog_id: 101,
           },
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Началось вчера вечером. Скорость упала с 100 Мбит до 5-10 Мбит.',
             is_used: true,
             date: new Date('2024-01-15T09:02:00Z').toISOString(),
@@ -145,7 +145,7 @@ export const dialogHandlers = [
             dialog_id: 0,
           },
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Хорошо, делаю... Роутер перезагрузился. Проверяю скорость.',
             is_used: true,
             date: new Date('2024-01-15T09:05:00Z').toISOString(),
@@ -181,7 +181,7 @@ export const dialogHandlers = [
         customer: 'Михаил Иванов',
         messages: [
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Добрый день! Хочу подключить дополнительный пакет каналов.',
             is_used: true,
             date: new Date('2024-01-15T10:00:00Z').toISOString(),
@@ -208,7 +208,7 @@ export const dialogHandlers = [
             dialog_id: 201,
           },
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Интересуют спортивные каналы. Есть ли пакет со всеми спортивными каналами?',
             is_used: true,
             date: new Date('2024-01-15T10:02:00Z').toISOString(),
@@ -226,7 +226,7 @@ export const dialogHandlers = [
             dialog_id: 0,
           },
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Звучит интересно! А есть ли какие-то акции сейчас?',
             is_used: true,
             date: new Date('2024-01-15T10:04:00Z').toISOString(),
@@ -280,7 +280,7 @@ export const dialogHandlers = [
         customer: 'Елена Сидорова',
         messages: [
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Здравствуйте! Не работает цифровое телевидение, показывает "Нет сигнала".',
             is_used: true,
             date: new Date('2024-01-15T11:00:00Z').toISOString(),
@@ -298,7 +298,7 @@ export const dialogHandlers = [
             dialog_id: 0,
           },
           {
-            role: 'customer' as const,
+            role: 'client' as const,
             text: 'Проверила, все подключено правильно. Индикаторы на приставке горят.',
             is_used: true,
             date: new Date('2024-01-15T11:02:00Z').toISOString(),
@@ -352,7 +352,7 @@ export const dialogHandlers = [
       customer: `Customer ${dialogId}`,
       messages: [
         {
-          role: 'customer' as const,
+          role: 'client' as const,
           text: 'Привет!',
           is_used: true,
           date: new Date().toISOString(),

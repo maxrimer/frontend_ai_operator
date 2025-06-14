@@ -4,7 +4,7 @@ import axiosInstance from '../../../configs/axios.config';
 
 import { SendMessageRequest, SendMessageResponse } from './model';
 
-const sendMessage = async (data: SendMessageRequest): Promise<SendMessageResponse> => {
+const sendMessage = async (data: SendMessageRequest[]): Promise<SendMessageResponse> => {
   const response = await axiosInstance.post<SendMessageResponse>('/dialog', data);
 
   return response.data;

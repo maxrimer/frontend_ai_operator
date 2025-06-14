@@ -113,7 +113,7 @@ export const Conversation: FC<ConversationProps> = ({
     }
   }, [dialog]);
 
-  const handleSendMessage = (message: string, type: 'customer' | 'operator') => {
+  const handleSendMessage = (message: string, type: 'client' | 'operator') => {
     // Here you would handle sending the message
     console.log(`Sending ${type} message:`, message);
 
@@ -194,7 +194,7 @@ export const Conversation: FC<ConversationProps> = ({
           />
         )}
         <Stack align="center" gap="l" style={{ minWidth: 0 }}>
-          <Avatar name='customer'>
+          <Avatar name='client'>
             <UserCircleOutlineIcon/>
           </Avatar>
           <Stack direction="column" style={{ minWidth: 0 }}>
@@ -246,7 +246,7 @@ export const Conversation: FC<ConversationProps> = ({
               {...message}
               ref={laseMessageRef}
               key={message.date}
-              type={message.role === 'customer' ? 'incoming' : 'outgoing'}
+              type={message.role === 'client' ? 'incoming' : 'outgoing'}
             />
           );
         })}

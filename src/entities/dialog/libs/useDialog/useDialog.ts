@@ -1,5 +1,4 @@
 import { useGetDialog } from '../../get/api';
-import { useSendMessage } from '../../send/api';
 
 import { GetDialogResponseV2, UseDialog } from './model';
 
@@ -10,7 +9,6 @@ interface UseDialogProps {
 
 export const useDialog = ({ dialogId }: UseDialogProps): UseDialog => {
   const { data } = useGetDialog(dialogId);
-  const sendMessage = useSendMessage();
 
   const dto: GetDialogResponseV2 | null = data ? {
     ...data,
@@ -20,6 +18,5 @@ export const useDialog = ({ dialogId }: UseDialogProps): UseDialog => {
 
   return {
     dialog: dto,
-    sendMessage,
   };
 }; 

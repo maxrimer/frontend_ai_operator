@@ -11,7 +11,7 @@ export interface DialogMessage {
 
 export interface GetDialogResponse {
   chat_id: number;
-  customer: string;
+  customer_number: string;
   messages: DialogMessage[];
   summary: string | null;
   status: string | null;

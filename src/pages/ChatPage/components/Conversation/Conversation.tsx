@@ -231,13 +231,10 @@ export const Conversation: FC<ConversationProps> = ({
           </Avatar>
           <Stack direction="column" style={{ minWidth: 0 }}>
             <Typography variant="text-m_1" noWrap>
-              {dialog.customer}
+              {dialog.customer_number}
             </Typography>
             <Stack direction="row" align="center" gap="s">
               <DialogStatusComponent status={dialog.status || DialogStatus.ACTIVE} size="xs" />
-              <Typography variant="text-s" color="tertiary" noWrap>
-                {dialog.status === DialogStatus.CLOSED ? 'Диалог закрыт' : 'В сети'}
-              </Typography>
             </Stack>
           </Stack>
         </Stack>

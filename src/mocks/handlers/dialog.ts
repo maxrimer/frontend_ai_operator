@@ -102,7 +102,7 @@ export const dialogHandlers = [
     const dialogData = {
       1: {
         chat_id: 1,
-        customer: 'Анна Петрова',
+        customer_number: '+7-777-123-45-67',
         messages: [
           {
             role: 'client' as const,
@@ -191,7 +191,7 @@ export const dialogHandlers = [
       },
       2: {
         chat_id: 2,
-        customer: 'Михаил Иванов',
+        customer_number: '+7-777-123-45-67',
         messages: [
           {
             role: 'client' as const,
@@ -300,7 +300,7 @@ export const dialogHandlers = [
       },
       3: {
         chat_id: 3,
-        customer: 'Елена Сидорова',
+        customer_number: '+7-777-123-45-67',
         messages: [
           {
             role: 'client' as const,
@@ -378,7 +378,7 @@ export const dialogHandlers = [
     // Fallback for unknown dialog IDs
     return HttpResponse.json<GetDialogResponse>({
       chat_id: dialogId,
-      customer: `Customer ${dialogId}`,
+      customer_number: `Customer ${dialogId}`,
       messages: [
         {
           role: 'client' as const,
